@@ -8,6 +8,7 @@ This is a web application created to assist in the preparation for the game "Kve
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
 - [Usage](#usage)
+- [Deployment](#deployment)
 - [Features](#features)
 - [Contributing](#contributing)
 - [License](#license)
