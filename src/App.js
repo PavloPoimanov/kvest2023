@@ -1,16 +1,9 @@
-import './App.css';
-import {Content} from "./containers/layout/Content";
-import {Header} from "./containers/layout/Header";
-import {Footer} from "./containers/layout/Footer";
-
-
+import {Page} from "./containers/layout/Page";
+import React from 'react';
 function App() {
+
     return (
-        <div className="app">
-            <Header/>
-            <Content/>
-            <Footer/>
-        </div>
+        <Page/>
     );
 }
 
