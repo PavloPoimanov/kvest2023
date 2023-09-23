@@ -85,9 +85,16 @@ Contributors
 Your Name - Lead Developer
 
 ## Features
-Describe the main features and functionality of your app here.
-For example, you can list features like user registration, game progress tracking, resource management, etc.
 
+App Features
+1. Names and Definitions
+   Description: Users can add names along with their corresponding definitions. This feature allows you to create and manage a database of names and their meanings.
+2. Places and Definitions
+   Description: Users can input place names and associate them with their respective definitions. This feature enables the organization and retrieval of location-related information.
+3. Numbers and Definitions
+   Description: Users can record numeric values along with their explanations or definitions. This feature assists in cataloging and comprehending numerical data.
+4. Quotes and Attribution
+   Description: Users can capture memorable quotes and attribute them to their respective authors or sources. This feature is designed for collecting and referencing inspiring or noteworthy quotations.
 ## Contributing
 Contributions are welcome! If you'd like to contribute to this project, please follow these steps:
 
