@@ -1,3 +1,15 @@
 {
-  "welcome": "Welcome to Your Kvest 2023 Helper"
+  "welcome": "Welcome to Your Kvest 2023 Helper",
+  "prepare": "Prepare for your adventure with our tools and resources.",
+  "start": "Get Started",
+  "features": "Features",
+  "feature1Title": "Name Generator",
+  "feature1Description": "Generate random names for your characters or places.",
+  "feature2Title": "Place Descriptions",
+  "feature2Description": "Get detailed descriptions of various locations for your game.",
+  "feature3Title": "Number Facts",
+  "feature3Description": "Discover interesting facts and trivia related to numbers.",
+  "feature4Title": "Inspirational Quotes",
+  "feature4Description": "Find motivational quotes to inspire your storytelling.",
+  "reachMe": "Reach me in telegram"
 }

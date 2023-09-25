@@ -12,11 +12,11 @@ function HeroSection() {
                     {t('home.welcome')}
                 </h1>
                 <p className="text-lg md:text-xl mb-8">
-                    Prepare for your adventure with our tools and resources.
+                    {t('home.prepare')}
                 </p>
-                <button className="bg-amber-300 hover:bg-yellow-500 text-blue-900 font-semibold px-6 py-3 rounded-full transition duration-300">
-                    Get Started
-                </button>
+                {/*<button className="bg-amber-300 hover:bg-yellow-500 text-blue-900 font-semibold px-6 py-3 rounded-full transition duration-300">*/}
+                {/*    {t('home.start')}*/}
+                {/*</button>*/}
             </div>
         </div>
     );
@@ -24,11 +24,12 @@ function HeroSection() {
 
 
 function FeaturesSection({features}) {
+    const { t } = useTranslation();
 
     return (
         <section className="py-16 bg-gray-100">
             <div className="container mx-auto text-center">
-                <h2 className="text-3xl md:text-4xl font-semibold mb-8">Features</h2>
+                <h2 className="text-3xl md:text-4xl font-semibold mb-8">{t('home.features')}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
                     {features.map((feature, index) => (
                         <div key={index} className="bg-white p-6 rounded-lg shadow-lg">
@@ -45,11 +46,12 @@ function FeaturesSection({features}) {
 
 function SocialMediaLinks({telegramLink}) {
     // Sample Telegram link
+    const { t } = useTranslation();
 
     return (
         <section className="bg-gray-800 text-white py-8">
             <div className="container mx-auto text-center">
-                <h2 className="text-3xl md:text-4xl font-semibold mb-6">Reach me in telegram</h2>
+                <h2 className="text-3xl md:text-4xl font-semibold mb-6">{t('home.reachMe')}</h2>
                 <div className="flex justify-center space-x-4">
                     {/* Telegram Link */}
                     <a
@@ -67,22 +69,23 @@ function SocialMediaLinks({telegramLink}) {
 }
 
 export const Home = () => {
+    const { t } = useTranslation();
     const features = [
         {
-            title: 'Name Generator',
-            description: 'Generate random names for your characters or places.',
+            title: t('home.feature1Title'),
+            description: t('home.feature1Description'),
         },
         {
-            title: 'Place Descriptions',
-            description: 'Get detailed descriptions of various locations for your game.',
+            title: t('home.feature2Title'),
+            description: t('home.feature2Description'),
         },
         {
-            title: 'Number Facts',
-            description: 'Discover interesting facts and trivia related to numbers.',
+            title: t('home.feature3Title'),
+            description: t('home.feature3Description'),
         },
         {
-            title: 'Inspirational Quotes',
-            description: 'Find motivational quotes to inspire your storytelling.',
+            title: t('home.feature4Title'),
+            description: t('home.feature4Description'),
         },
     ];
     const telegramLink = 'https://t.me/pavlo.poimanv';
