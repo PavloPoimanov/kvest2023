@@ -1,12 +1,15 @@
 import React from 'react';
 import {ChatBubbleLeftRightIcon} from "@heroicons/react/20/solid";
+import {useTranslation} from "react-i18next";
 
 function HeroSection() {
+    const { t } = useTranslation();
+
     return (
         <div className="bg-gray-400 py-20">
             <div className="container mx-auto text-center text-white">
                 <h1 className="text-4xl md:text-6xl font-bold mb-4">
-                    Welcome to Your Kvest2023 Helper
+                    {t('home.welcome')}
                 </h1>
                 <p className="text-lg md:text-xl mb-8">
                     Prepare for your adventure with our tools and resources.

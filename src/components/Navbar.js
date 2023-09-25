@@ -3,6 +3,7 @@ import {Disclosure} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import {Logo} from "./Logo";
 import {Link} from "react-router-dom";
+import {LanguageSwitch} from "./LanguageSwitch";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -50,7 +51,8 @@ export const Navbar = ({navigation}) => {
                                 </div>
                             </div>
                             <div
-                                className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                className="absolute inset-y-0 sm:right-0 left-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                                <LanguageSwitch />
                                 {/*something to right*/}
                             </div>
                         </div>
