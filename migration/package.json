@@ -1,0 +1,16 @@
+{
+  "name": "migration",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "author": "",
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-admin": "^11.10.1",
+    "minimist": "^1.2.8"
+  }
+}
