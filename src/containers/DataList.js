@@ -1,10 +1,8 @@
 import React, {useMemo, useState} from 'react';
-import {Listbox, Transition} from '@headlessui/react';
-import {CheckIcon} from '@heroicons/react/20/solid';
 import {useTranslation} from "react-i18next";
 import {Select} from "../components/Select"; // Import icons
 
-const ItemList = ({items, loading, error}) => {
+const DataList = ({items, loading, error}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortKey, setSortKey] = useState('name');
     const [sortDirection, setSortDirection] = useState('asc');
@@ -33,16 +31,15 @@ const ItemList = ({items, loading, error}) => {
             const order = sortDirection === 'asc' ? 1 : -1;
             if (typeof a[sortKey] === 'string') {
                 return order * a[sortKey].localeCompare(b[sortKey]);
-            }
-            {
-                return order * a[sortKey];
+            } else if (typeof a[sortKey] === 'number') {
+                return order * (a[sortKey] - b[sortKey]);
             }
         });
     }, [filteredItems, sortKey, sortDirection]);
 
     return (
         <div className="max-w-md mx-auto p-4">
-            <div className="mb-4">
+            <div className="mb-4 flex gap-2">
                 <input
                     type="text"
                     placeholder={t('common.search')}
@@ -50,6 +47,11 @@ const ItemList = ({items, loading, error}) => {
                     value={searchTerm}
                     onChange={handleSearchChange}
                 />
+                <div
+                    className="cursor-default flex rounded-lg bg-white py-2 pl-3 pr-3 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 sm:text-sm">
+                    {t('common.allCount')}
+                    {items.length}
+                </div>
             </div>
             {items.length > 0 && (
                 <div className="mb-4">
@@ -76,6 +78,7 @@ const ItemList = ({items, loading, error}) => {
                             <h3 className="text-lg font-semibold">{item.name}</h3>
                             <p className="text-gray-600">{item.description}</p>
                             <p className="text-gray-600">{item.first_mention}</p>
+                            <p className="text-gray-600">{item.usage_count}</p>
                         </li>
                     ))}
                 </ul>
@@ -84,4 +87,4 @@ const ItemList = ({items, loading, error}) => {
     );
 };
 
-export default ItemList;
+export default DataList;

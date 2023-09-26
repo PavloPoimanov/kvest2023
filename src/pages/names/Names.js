@@ -7,7 +7,6 @@ function Names() {
     const database = getDatabase();
     const [snapshots, loading, error] = useList(query(ref(database, 'names')));
     const items = snapshots.map(e => ({...e.val(), id: e.key}))
-    console.log(items)
     // all items
     return <DataList items={items} loading={loading} error={error}/>
 }
