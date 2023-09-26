@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.mjs"
+    "dev": "node index.mjs",
+    "prod": "node index.mjs --prod"
   },
   "author": "",
   "type": "module",
