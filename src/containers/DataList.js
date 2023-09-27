@@ -1,6 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {useTranslation} from "react-i18next";
-import {Select} from "../components/Select"; // Import icons
+import {Select} from "../components/Select";
+import {Link} from "react-router-dom"; // Import icons
 
 const DataList = ({items, loading, error}) => {
     const [searchTerm, setSearchTerm] = useState('');
@@ -75,10 +76,13 @@ const DataList = ({items, loading, error}) => {
                             key={index}
                             className="border p-4 rounded-md hover:bg-gray-100"
                         >
-                            <h3 className="text-lg font-semibold">{item.name}</h3>
-                            <p className="text-gray-600">{item.description}</p>
-                            <p className="text-gray-600">{item.first_mention}</p>
-                            <p className="text-gray-600">{item.usage_count}</p>
+                            <Link to={item.link ? `/text/${item.link.bookId}/${item.link.chapterId}/${item.link.verseId}`: ""}>
+                                <h3 className="text-lg font-semibold">{item.name}</h3>
+                                <p className="text-gray-600">{item.description}</p>
+                                <p className="text-gray-600">{item.first_mention}</p>
+                                <p className="text-gray-600">{item.usage_count}</p>
+                            </Link>
+
                         </li>
                     ))}
                 </ul>
