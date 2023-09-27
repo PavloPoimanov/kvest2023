@@ -5,14 +5,14 @@ import {CheckIcon, ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/20/sol
 export const Select = ({items, selected, setSelected, toggleSortDirection, sortDirection}) => {
     return (
         <div className="w-full">
-            <Listbox value={selected.key} onChange={setSelected}>
+            <Listbox value={selected?.key} onChange={setSelected}>
                 <div className="relative mt-1">
                     <div className="flex gap-2">
                         <Listbox.Button
                             className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 sm:text-sm">
-                            <span className="block truncate">{selected.label}</span>
+                            <span className="block truncate">{selected?.label}</span>
                         </Listbox.Button>
-                        <button
+                        {sortDirection && <button
                             className="shadow-mdcursor-default rounded-lg bg-white py-2 pl-3 pr-3 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 sm:text-sm"
                             onClick={toggleSortDirection}
                         >
@@ -21,7 +21,7 @@ export const Select = ({items, selected, setSelected, toggleSortDirection, sortD
                             ) : (
                                 <ChevronDownIcon className="w-4 h-4"/>
                             )}
-                        </button>
+                        </button>}
                     </div>
                     <Transition
                         as={React.Fragment}
