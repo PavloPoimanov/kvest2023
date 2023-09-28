@@ -1,8 +1,10 @@
 import {names} from "../data/names.js";
-import {createName, createNumber, createText} from "../api/firebase/api.js";
+import {createName, createNumber, createPlace, createQuote, createText} from "../api/firebase/api.js";
 import {parseLink} from "../lib/parseLink.js";
 import {text} from "../data/text.js";
 import {numbers} from "../data/numbers.js";
+import {places} from "../data/places.js";
+import {quotes} from "../data/quotes.js";
 
 export const createNames = () => {
 
@@ -14,6 +16,7 @@ export const createNames = () => {
                 result[nameItem.name] = nameItem
             } else {
                 result[nameItem.name].usage_count += nameItem.usage_count
+                // result[nameItem.name].description += nameItem.description
             }
         })
     })
@@ -54,10 +57,30 @@ export const createTexts = () => {
 
 export const createNumbers = () => {
     numbers.forEach((e) => {
-        createNumber(e).then(() => {
+        createNumber({...e, link: parseLink(e.link)}).then(() => {
             console.log('numbers:migration successful', e)
         }).catch((er) => {
             console.log('numbers:migration fail', er)
+        })
+    })
+}
+
+export const createPlaces = () => {
+    places.forEach((e) => {
+        createPlace({...e, link: parseLink(e.link)}).then(() => {
+            console.log('places:migration successful', e)
+        }).catch((er) => {
+            console.log('places:migration fail', er)
+        })
+    })
+}
+
+export const createQuotes = () => {
+    quotes.forEach((e) => {
+        createQuote({...e, link: parseLink(e.link)}).then(() => {
+            console.log('quotes:migration successful', e)
+        }).catch((er) => {
+            console.log('quotes:migration fail', er)
         })
     })
 }

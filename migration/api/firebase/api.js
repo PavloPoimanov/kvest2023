@@ -24,6 +24,27 @@ export const createNumber = ({name, description, link}) => {
     });
 };
 
+export const createPlace = ({name, description, link}) => {
+    const db = getDatabase();
+    const namesRef = ref(db, 'places');
+    const newPostRef = push(namesRef);
+    return set(newPostRef, {
+        name,
+        description,
+        link: link ? link : ""
+    });
+};
+export const createQuote = ({name, description, link}) => {
+    const db = getDatabase();
+    const namesRef = ref(db, 'quotes');
+    const newPostRef = push(namesRef);
+    return set(newPostRef, {
+        name,
+        description,
+        link: link ? link : ""
+    });
+};
+
 export const createText = ({bookId, chapterId, value}) => {
     const db = getDatabase();
     const textRef = ref(db, 'text');
