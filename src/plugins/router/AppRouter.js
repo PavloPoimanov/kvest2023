@@ -4,12 +4,16 @@ import {Text} from "../../pages/text/Text";
 import Names from "../../pages/names/Names";
 import {ElegantMonochrome} from "../../pages/themes/ElegantMonochrome";
 import React from 'react';
+import Numbers from "../../pages/numbers/Numbers";
+import Places from "../../pages/places/Places";
 
 const AppRouter = () => {
     return (
         <Routes>
             <Route path="/" element={<Home/>}/>
             <Route path="/names" element={<Names/>}/>
+            <Route path="/numbers" element={<Numbers/>}/>
+            <Route path="/places" element={<Places/>}/>
             <Route path="/text/:bookId/:chapterId/:verseId" element={<Text/>}/>
             <Route path="/text/:bookId/:chapterId" element={<Text/>}/>
             <Route path="/text" element={<Text/>}/>

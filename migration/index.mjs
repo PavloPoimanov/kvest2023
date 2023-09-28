@@ -1,3 +1,7 @@
 import "./firebase.js";
-import "./create/names.js"
-import "./create/text.js"
+import "./create/create.js"
+import {createNames, createNumbers, createTexts} from "./create/create.js";
+
+createNames()
+createTexts()
+createNumbers()

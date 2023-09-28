@@ -3,7 +3,7 @@ import {useTranslation} from "react-i18next";
 import {Select} from "../components/Select";
 import {Link} from "react-router-dom"; // Import icons
 
-const DataList = ({items, loading, error}) => {
+const DataList = ({items, loading, error, sortingKeys = ['name', 'description', 'usage_count']}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortKey, setSortKey] = useState('name');
     const [sortDirection, setSortDirection] = useState('asc');
@@ -37,6 +37,8 @@ const DataList = ({items, loading, error}) => {
             }
         });
     }, [filteredItems, sortKey, sortDirection]);
+    const sortingItems = sortingKeys.map(e => ({key: e, label: t(`common.sort.${e}`)}));
+
 
     return (
         <div className="max-w-md mx-auto p-4">
@@ -58,7 +60,7 @@ const DataList = ({items, loading, error}) => {
                 <div className="mb-4">
                     <div className="flex flex-col gap-2">
                         <div className="block text-gray-700">{t('common.sortBy')}</div>
-                        <Select items={Object.keys(items[0]).map(e => ({key: e, label: t(`common.sort.${e}`)}))}
+                        <Select items={sortingItems}
                                 selected={{key: sortKey, label: t(`common.sort.${sortKey}`)}}
                                 setSelected={handleSortChange}
                                 sortDirection={sortDirection}

@@ -13,6 +13,17 @@ export const createName = ({name, description, first_mention, usage_count, link}
     });
 };
 
+export const createNumber = ({name, description, link}) => {
+    const db = getDatabase();
+    const namesRef = ref(db, 'numbers');
+    const newPostRef = push(namesRef);
+    return set(newPostRef, {
+        name,
+        description,
+        link: link ? link : ""
+    });
+};
+
 export const createText = ({bookId, chapterId, value}) => {
     const db = getDatabase();
     const textRef = ref(db, 'text');
