@@ -1,12 +1,11 @@
 import {names} from "../data/names.js";
 import {createName, createNumber, createPlace, createQuote, createText} from "../api/firebase/api.js";
 import {parseLink} from "../lib/parseLink.js";
-import {text} from "../data/text.js";
 import {numbers} from "../data/numbers.js";
 import {places} from "../data/places.js";
 import {quotes} from "../data/quotes.js";
 
-export const createTexts = () => {
+export const createTexts = (text) => {
 
     const result = []
 
