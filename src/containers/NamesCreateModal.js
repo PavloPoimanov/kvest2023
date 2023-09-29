@@ -9,7 +9,7 @@ const NamesCreateModal = () => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
-        first_mention: '',
+        link: '',
         usage_count: '',
     });
 
@@ -33,7 +33,7 @@ const NamesCreateModal = () => {
             id: formData.name,
             name: formData.name,
             description: formData.description,
-            first_mention: formData.first_mention,
+            link: formData.link,
             usage_count: formData.usage_count
         })
         closeModal();

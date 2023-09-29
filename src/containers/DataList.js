@@ -3,9 +3,16 @@ import {useTranslation} from "react-i18next";
 import {Select} from "../components/Select";
 import {Link} from "react-router-dom"; // Import icons
 
-const DataList = ({items, loading, error, sortingKeys = ['name', 'description', 'usage_count']}) => {
+const DataList = ({
+                      items,
+                      loading,
+                      error,
+                      defaultSortKey = 'name',
+                      sortingKeys = ['name', 'description', 'usage_count'],
+                      children
+                  }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [sortKey, setSortKey] = useState('name');
+    const [sortKey, setSortKey] = useState(defaultSortKey);
     const [sortDirection, setSortDirection] = useState('asc');
     const {t} = useTranslation()
     const handleSearchChange = (e) => {
@@ -30,15 +37,35 @@ const DataList = ({items, loading, error, sortingKeys = ['name', 'description', 
     const sortedItems = useMemo(() => {
         return [...filteredItems].sort((a, b) => {
             const order = sortDirection === 'asc' ? 1 : -1;
-            if (typeof a[sortKey] === 'string') {
-                return order * a[sortKey].localeCompare(b[sortKey]);
-            } else if (typeof a[sortKey] === 'number') {
+            const el = a[sortKey];
+            const tryParse = parseInt(el);
+            if (!isNaN(tryParse)) {
                 return order * (a[sortKey] - b[sortKey]);
+            } else {
+                if (typeof el === 'string') {
+                    return order * a[sortKey].localeCompare(b[sortKey]);
+                } else {
+                    return order;
+                }
             }
         });
     }, [filteredItems, sortKey, sortDirection]);
     const sortingItems = sortingKeys.map(e => ({key: e, label: t(`common.sort.${e}`)}));
+    const defaultListItem = (item, index) => (
+        <li
+            key={index}
+            className="border p-4 rounded-md hover:bg-gray-100"
+        >
+            <Link to={item.link ? `/text/${item.link.bookId}/${item.link.chapterId}/${item.link.verseId}` : ""}>
+                <h3 className="text-lg font-semibold">{item.name}</h3>
+                <p className="text-gray-600">{item.description}</p>
+                <p className="text-gray-600">{item.href}</p>
+                <p className="text-gray-600">{item.usage_count}</p>
+            </Link>
 
+        </li>
+    )
+    const listMap = children ?? defaultListItem
 
     return (
         <div className="max-w-md mx-auto p-4">
@@ -73,20 +100,7 @@ const DataList = ({items, loading, error, sortingKeys = ['name', 'description', 
             {error && <p className="text-center text-red-500">{error}</p>}
             {!loading && !error && (
                 <ul className="space-y-2">
-                    {sortedItems.map((item, index) => (
-                        <li
-                            key={index}
-                            className="border p-4 rounded-md hover:bg-gray-100"
-                        >
-                            <Link to={item.link ? `/text/${item.link.bookId}/${item.link.chapterId}/${item.link.verseId}`: ""}>
-                                <h3 className="text-lg font-semibold">{item.name}</h3>
-                                <p className="text-gray-600">{item.description}</p>
-                                <p className="text-gray-600">{item.first_mention}</p>
-                                <p className="text-gray-600">{item.usage_count}</p>
-                            </Link>
-
-                        </li>
-                    ))}
+                    {sortedItems.map(listMap)}
                 </ul>
             )}
         </div>

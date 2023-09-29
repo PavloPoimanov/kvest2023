@@ -13,5 +13,9 @@
   "sort.usage_count": "Популярніть",
   "sort.id": "Ід",
   "sort.first_mention": "Перша згадка",
-  "sort.description": "Опис"
+  "sort.description": "Опис",
+  "sort.author": "Автор",
+  "sort.quote": "Цитата",
+  "sort.number": "Число",
+  "sort.place": "Місце"
 }

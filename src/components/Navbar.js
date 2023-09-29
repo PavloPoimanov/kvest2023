@@ -59,6 +59,8 @@ export const Navbar = ({navigation}) => {
                             </div>
                         </div>
                         <Transition
+                            as={Fragment}
+                            show={open}
                             enter="transition duration-100 ease-out"
                             enterFrom="transform scale-95 opacity-0"
                             enterTo="transform scale-100 opacity-100"
@@ -66,7 +68,7 @@ export const Navbar = ({navigation}) => {
                             leaveFrom="transform scale-100 opacity-100"
                             leaveTo="transform scale-95 opacity-0"
                         >
-                            <Disclosure.Panel className="sm:hidden">
+                            <Disclosure.Panel className="sm:hidden fixed w-full bg-gray-700 z-50 h-full" static>
                                 <div className="space-y-1 px-2 pb-3 pt-2">
                                     {navigation.map((item) => (
                                         <Disclosure.Button

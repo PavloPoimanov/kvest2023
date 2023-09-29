@@ -1,46 +1,49 @@
 import { getDatabase, ref, set, push, child } from "firebase/database";
 
-export const createName = ({name, description, first_mention, usage_count, link}) => {
+export const createName = ({name, description, usage_count, link, href}) => {
     const db = getDatabase();
     const namesRef = ref(db, 'names');
     const newPostRef = push(namesRef);
     return set(newPostRef, {
         name,
         description,
-        first_mention,
         usage_count,
+        href,
         link: link ? link : ""
     });
 };
 
-export const createNumber = ({name, description, link}) => {
+export const createNumber = ({name, description, link, href}) => {
     const db = getDatabase();
     const namesRef = ref(db, 'numbers');
     const newPostRef = push(namesRef);
     return set(newPostRef, {
         name,
         description,
+        href,
         link: link ? link : ""
     });
 };
 
-export const createPlace = ({name, description, link}) => {
+export const createPlace = ({name, description, link, href}) => {
     const db = getDatabase();
     const namesRef = ref(db, 'places');
     const newPostRef = push(namesRef);
     return set(newPostRef, {
         name,
         description,
+        href,
         link: link ? link : ""
     });
 };
-export const createQuote = ({name, description, link}) => {
+export const createQuote = ({name, description, link, href}) => {
     const db = getDatabase();
     const namesRef = ref(db, 'quotes');
     const newPostRef = push(namesRef);
     return set(newPostRef, {
         name,
         description,
+        href,
         link: link ? link : ""
     });
 };
