@@ -7,22 +7,9 @@ import {quotes} from "../data/quotes.js";
 
 export const createTexts = (text) => {
 
-    const result = []
-
-
-    Object.entries(text).forEach(([bookChapterKey, value]) => {
-        const {bookId, chapterId} = parseLink(bookChapterKey)
-
-        result.push({
-            bookId,
-            chapterId,
-            value
-        })
-    })
-
-    result.forEach((e) => {
-        createText({...e}).then(() => {
-            console.log('text:migration successful', e)
+    Object.entries(text).forEach(([bookId, chapters]) => {
+        createText({bookId, chapters}).then(() => {
+            console.log('text:migration successful', bookId)
         }).catch((er) => {
             console.log('text:migration fail', er)
         })

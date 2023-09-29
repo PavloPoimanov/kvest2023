@@ -2,7 +2,7 @@ import React from "react";
 import {Listbox, Transition} from "@headlessui/react";
 import {CheckIcon, ChevronDownIcon, ChevronUpIcon} from "@heroicons/react/20/solid";
 
-export const Select = ({items, selected, setSelected, toggleSortDirection, sortDirection}) => {
+export const Select = ({items, selected, setSelected, toggleSortDirection, sortDirection, icon = true}) => {
     return (
         <div className="w-full">
             <Listbox value={selected?.key} onChange={setSelected}>
@@ -35,7 +35,7 @@ export const Select = ({items, selected, setSelected, toggleSortDirection, sortD
                                 <Listbox.Option
                                     key={item.key}
                                     className={({active}) =>
-                                        `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                        `relative cursor-default select-none py-2 ${icon ? 'pl-10':'pl-4'} pr-4 ${
                                             active ? 'bg-light-blue-gray text-white' : 'text-gray-900'
                                         }`
                                     }
@@ -50,7 +50,7 @@ export const Select = ({items, selected, setSelected, toggleSortDirection, sortD
                       >
                         {item.label}
                       </span>
-                                            {selected ? (
+                                            {selected && icon ? (
                                                 <span
                                                     className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600">
                           <CheckIcon className="h-5 w-5" aria-hidden="true"/>

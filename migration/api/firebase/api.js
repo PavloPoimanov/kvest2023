@@ -48,10 +48,10 @@ export const createQuote = ({name, description, link, href}) => {
     });
 };
 
-export const createText = ({bookId, chapterId, value}) => {
+export const createText = (value) => {
     const db = getDatabase();
     const textRef = ref(db, 'text');
     const newPostRef = push(textRef);
 
-    return set(newPostRef, {bookId, chapterId, value});
+    return set(newPostRef, value);
 };

@@ -1,14 +1,12 @@
-import {textRawKhronik1, textRawSamuel1, textRawSamuel2} from "../data/textRawSamuel1.js";
+import {textRawKhronik1, textRawSamuel1, textRawSamuel2} from "../data/textRaw.js";
 
 export function parseText() {
-    const textBook = {};
 
     function makeBook(rawValue, bookName = `1 Самуїлова`) {
         // rawValue.
         const bookPattern = new RegExp(bookName + ` (\\d+)$`, '');
         const res = bookPattern.exec(rawValue)
-
-        const bookChapter = res[0];
+        const bookChapter = res[1];
         // Replace superscript numbers with regular numbers
         const text = rawValue
             .replace(/⁰/g, '0')
@@ -21,10 +19,9 @@ export function parseText() {
             .replace(/⁷/g, '7')
             .replace(/⁸/g, '8')
             .replace(/⁹/g, '9')
-            .replace(bookChapter, '');
+            .replace(bookName + ' ' + bookChapter, '')
         const verseObj = {};
 
-        // const verseIndexes = text.match(/(\b\d+\b)/g); goog capture the index
         const versePattern = /(\d+)\s(.*?)(?=\d+\s|$)/gs;
         let match;
         const verses = [];
@@ -48,20 +45,29 @@ export function parseText() {
         }
     }
 
-    textRawSamuel1.forEach((rawValue) => {
-        const {bookChapter, verseObj} = makeBook(rawValue, `1 Самуїлова`)
-        textBook[bookChapter] = verseObj
-    })
-    textRawSamuel2.forEach((rawValue) => {
-        const {bookChapter, verseObj} = makeBook(rawValue, `2 Самуїлова`)
-        textBook[bookChapter] = verseObj
-    })
-    textRawKhronik1.forEach((rawValue) => {
-        const {bookChapter, verseObj} = makeBook(rawValue, `1 Хроніки`)
-        textBook[bookChapter] = verseObj
-    })
+    return [
+        {
+            bookName: `1 Самуїлова`,
+            raw: textRawSamuel1
+        },
+        {
+            bookName: `2 Самуїлова`,
+            raw: textRawSamuel2
+        },
+        {
+            bookName: `1 Хроніки`,
+            raw: textRawKhronik1
+        }].reduce((acc, {bookName, raw}) => {
+        raw.forEach((rawValue) => {
+            const {bookChapter, verseObj} = makeBook(rawValue, bookName)
+            if (acc[bookName]) {
+                acc[bookName][bookChapter] = verseObj;
+            } else {
+                acc[bookName] = {[bookChapter]: verseObj}
+            }
+        });
 
-
-    return textBook
+        return acc
+    }, {})
 }
 

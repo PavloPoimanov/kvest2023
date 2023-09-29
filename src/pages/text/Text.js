@@ -9,7 +9,7 @@ export const Text = () => {
     const {t} = useTranslation()
     const database = getDatabase();
     const [snapshots, loading, error] = useList(query(ref(database, 'text')));
-    const items = snapshots.map(e => ({...e.val(), id: e.key}))
+    const itemsBooks = snapshots.map(e => ({...e.val(), id: e.key}))
     let params = useParams();
     const paramsId = useMemo(() => params.bookId ? `${params.bookId} ${params.chapterId}:${params.verseId}` : null, [params.bookId, params.chapterId, params.verseId])
     const scrollTo = (paramIdToScroll) => {
@@ -22,28 +22,37 @@ export const Text = () => {
         scrollTo(paramsId)
     }, [paramsId, snapshots.length]);
 
-    const chapters = items.map((value) => ({
-        key: `${(value.bookId)} ${(value.chapterId)}`,
-        label: `${(value.bookId)} ${(value.chapterId)}`,
-        value
-    }));
-    const [selectedChapter, setSelectedChapter] = useState();
+    const books = itemsBooks.map(({bookId}) => ({key: bookId, label: bookId}));
+    const [bookId, setBookId] = useState();
 
-    useEffect(() => {
-        if (chapters.length>0){
-            setSelectedChapter(chapters[0])
-        }
-    }, [chapters.length]);
 
     const navigate = useNavigate();
 
-    const setChapter = (chapterKey) => {
-        const chapterFounded = chapters.find(({key})=>key===chapterKey)
-        setSelectedChapter(chapterFounded);
-        scrollTo(`${chapterKey}`)
-        navigate(`/text/${chapterFounded.value.bookId}/${chapterFounded.value.chapterId}`)
+    const selectedBook = useMemo(() => itemsBooks.find(e => e.bookId === bookId?.key), [itemsBooks.length, bookId])
+    const chapters = selectedBook ? Object.keys(selectedBook?.chapters).map(e=>({key: e, label: e})) : []
+    const [chapter, setChapter] = useState()
+    useEffect(() => {
+        if (books.length > 0) {
+            setBookScroll(books[0].key)
+        }
+    }, [books.length]);
+
+    useEffect(() => {
+        if (chapters.length > 0) {
+            setChapterScroll(chapters[0].key)
+        }
+    }, [chapters.length]);
+
+    const setBookScroll = (bookId) => {
+        const booksNew = books.find(({key}) => key === bookId)
+        setBookId(booksNew)
     }
 
+    const setChapterScroll = (val)=>{
+        const chapterNew = chapters.find((e)=>e.key === val)
+        setChapter(chapterNew)
+        scrollTo(`${bookId.key} ${chapterNew.key}`)
+    }
     return (
         <div className="p-4">
             {loading ? (
@@ -51,35 +60,34 @@ export const Text = () => {
             ) : error ? (
                 <div className="text-center text-red-500">{t('common.error')}</div>
             ) : <div className='flex flex-col gap-2'>
-                <div className="w-full">
-                    {selectedChapter && <Select items={chapters} selected={selectedChapter} setSelected={setChapter}/>}
+                <div className="w-full flex gap-2">
+                    {bookId && <div className='w-full'><Select items={books} selected={bookId} setSelected={setBookScroll}/></div>}
+                    {selectedBook && <div className='flex-auto'><Select icon={false} items={chapters} selected={chapter} setSelected={setChapterScroll}/></div>}
                 </div>
                 <div className="overflow-auto max-h-[calc(100vh-13rem)]">
-                    {items.map(({bookId, chapterId, value}, index) => {
-                        return (
-                            <div
-                                key={index}
-                                className="mb-4 border rounded p-4 sm:p-6 md:p-8 lg:p-10"
-                            >
-                                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold mb-2" data-id={`${bookId} ${chapterId}`}>
-                                    {bookId}: {chapterId}
-                                </h2>
-                                <div>
-                                    {Object.entries(value).map(([key, verse]) => {
-                                        const dataId = `${bookId} ${chapterId}:${key}`
-                                        return (
-                                            <div key={key} className={`mb-2 ${dataId === paramsId
-                                                ? 'bg-gray-300 -mx-4 px-4 hover:bg-gray-400 hover:rounded hover:-mx-4 hover:px-4'
-                                                : 'hover:bg-gray-300 hover:-mx-4 hover:px-4'}`}
-                                                 data-id={dataId}>
-                                                <span className="font-semibold">{key}</span>
-                                                <span className="ml-2">{verse}</span>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        );
+                    {selectedBook && Object.entries(selectedBook.chapters).map(([chapterId, value]) => {
+                        //         console.log(val)
+                        return <div key={chapterId}>
+                            <h2 className="font-semibold mb-2"
+                                data-id={`${bookId.key} ${chapterId}`}>
+                                {bookId.label}: {chapterId}
+                            </h2>
+                            {Object.entries(value).map(([verseId, text]) => {
+                                const dataId = `${bookId.key} ${chapterId}:${verseId}`
+                                return (
+                                    <div
+                                        key={dataId}
+                                        className={`mb-2 ${dataId === paramsId
+                                            ? 'bg-gray-300 hover:bg-gray-400 transition duration-300'
+                                            : 'hover:bg-gray-300 transition duration-300'}`}
+                                        data-id={dataId}
+                                    >
+                                        <span className="font-semibold">{verseId}</span>
+                                        <span className="ml-2">{text}</span>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     })}
                 </div>
             </div>}
