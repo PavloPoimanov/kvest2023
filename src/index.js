@@ -7,15 +7,16 @@ import './styles/index.css';
 import './plugins/language/i18n'
 import './firebase'
 import {ModalProvider} from "./context/dialogContext";
+import {SnackbarProvider} from 'notistack';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
-        <React.StrictMode>
+        <SnackbarProvider>
             <ModalProvider>
                 <App/>
             </ModalProvider>
-        </React.StrictMode>
+        </SnackbarProvider>
     </BrowserRouter>
 );
 

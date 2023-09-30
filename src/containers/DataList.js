@@ -1,7 +1,7 @@
 import React, {useMemo, useState} from 'react';
 import {useTranslation} from "react-i18next";
 import {Select} from "../components/Select";
-import {Link} from "react-router-dom"; // Import icons
+import {Link} from "react-router-dom";
 
 const DataList = ({
                       items,
@@ -29,8 +29,7 @@ const DataList = ({
     };
 
     const filteredItems = useMemo(() => {
-        return items.filter((item) =>
-            item.name.toLowerCase().includes(searchTerm.toLowerCase())
+        return items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.description.toLowerCase().includes(searchTerm.toLowerCase())
         );
     }, [items, searchTerm]);
 

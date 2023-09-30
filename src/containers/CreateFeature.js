@@ -3,35 +3,42 @@ import {Dialog, Switch} from '@headlessui/react';
 import {Select} from "../components/Select";
 import {useTranslation} from "react-i18next";
 import {NameContent} from "../components/create/NameContent";
-import {createName} from "../../migration/api/firebase/api";
-import {parseLink} from "../../migration/lib/parseLink";
+import {useSnackbar} from "notistack";
+import {createName, getBy, updateById} from "../api/firebase/api";
+import {parseLink} from "../lib/parseLink";
 
 // Place Content
 function PlaceContent() {
+    const {t} = useTranslation();
+
     return (
         <div>
-            <h4 className="text-lg font-medium">Place Content</h4>
-            <p className="text-gray-600 mt-2">This is the content for Place.</p>
+            <h4 className="text-lg font-medium">{t('common.notReady')}</h4>
+            <p className="text-gray-600 mt-2">{t('common.notReady')}</p>
         </div>
     );
 }
 
 // Number Content
 function NumberContent() {
+    const {t} = useTranslation();
+
     return (
         <div>
-            <h4 className="text-lg font-medium">Number Content</h4>
-            <p className="text-gray-600 mt-2">This is the content for Number.</p>
+            <h4 className="text-lg font-medium">{t('common.notReady')}</h4>
+            <p className="text-gray-600 mt-2">{t('common.notReady')}</p>
         </div>
     );
 }
 
 // Quote Content
 function QuoteContent() {
+    const {t} = useTranslation();
+
     return (
         <div>
-            <h4 className="text-lg font-medium">Quote Content</h4>
-            <p className="text-gray-600 mt-2">This is the content for Quote.</p>
+            <h4 className="text-lg font-medium">{t('common.notReady')}</h4>
+            <p className="text-gray-600 mt-2">{t('common.notReady')}</p>
         </div>
     );
 }
@@ -55,19 +62,39 @@ function CreateFeature({onClose}) {
             }
         });
     }
+    const {enqueueSnackbar} = useSnackbar();
+
 
     const options = [
         {
             key: 'name',
             label: t('common.name'),
-            content: <NameContent setOnSubmit={handleSetOnSubmit((formData) => {
-                createName({
-                    name: formData.name,
-                    description: formData.description,
-                    usage_count: 1,
-                    link: parseLink(formData.link),
-                    href: formData.link
-                });
+            content: <NameContent setOnSubmit={handleSetOnSubmit(async (formData) => {
+                const snapshot = await getBy(formData, "names", "name");
+                if (snapshot.exists()) {
+                    const [[key, val]] = Object.entries(snapshot.val())
+                    await updateById("names", key, {
+                        name: formData.name,
+                        description: formData.description,
+                        usage_count: val.usage_count + 1,
+                        link: parseLink(formData.link),
+                        href: formData.link
+                    })
+                    enqueueSnackbar(t('common.updated'), {
+                        variant: 'success',
+                    })
+                } else {
+                    await createName({
+                        name: formData.name,
+                        description: formData.description,
+                        usage_count: 1,
+                        link: parseLink(formData.link),
+                        href: formData.link
+                    })
+                    enqueueSnackbar(t('common.created'), {
+                        variant: 'success',
+                    })
+                }
 
             })} shouldFormReset={isAddMoreEnabled}/>,
         },

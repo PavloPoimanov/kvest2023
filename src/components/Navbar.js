@@ -4,7 +4,6 @@ import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import {Logo} from "./Logo";
 import {Link} from "react-router-dom";
 import {useAppPopupDialog} from "../context/dialogContext";
-import {NamesCreateModal} from "../containers/NamesCreateModal";
 import {PlusIcon} from "@heroicons/react/20/solid";
 import {useTranslation} from "react-i18next";
 import CreateFeature from "../containers/CreateFeature";
