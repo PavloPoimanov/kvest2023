@@ -2,7 +2,7 @@ import {getDatabase, query, ref} from "firebase/database";
 import {useList} from "react-firebase-hooks/database";
 import React, {useEffect, useMemo, useState} from "react";
 import {useTranslation} from "react-i18next";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {Select} from "../../components/Select";
 
 export const Text = () => {
@@ -24,9 +24,6 @@ export const Text = () => {
 
     const books = itemsBooks.map(({bookId}) => ({key: bookId, label: bookId}));
     const [bookId, setBookId] = useState();
-
-
-    const navigate = useNavigate();
 
     const selectedBook = useMemo(() => itemsBooks.find(e => e.bookId === bookId?.key), [itemsBooks.length, bookId])
     const chapters = selectedBook ? Object.keys(selectedBook?.chapters).map(e=>({key: e, label: e})) : []

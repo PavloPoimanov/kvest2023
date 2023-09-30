@@ -2,6 +2,8 @@ import React from 'react';
 import DataList from "../../containers/DataList";
 import {getDatabase, query, ref} from "firebase/database";
 import {useList} from "react-firebase-hooks/database";
+import {Link} from "react-router-dom";
+import {makeLink} from "../../lib/makeLink";
 
 export const PlaceListItem = ({item: {place, description, link, href}}) => {
     return (
@@ -13,14 +15,12 @@ export const PlaceListItem = ({item: {place, description, link, href}}) => {
                 {description}
             </div>
             <div className="flex justify-end mt-2">
-                <a
-                    href={link}
+                <Link
+                    to={makeLink(link)}
                     className="text-blue-500 hover:underline text-sm"
-                    target="_blank"
-                    rel="noopener noreferrer"
                 >
                     {href}
-                </a>
+                </Link>
             </div>
         </div>
     );
