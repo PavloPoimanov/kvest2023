@@ -5,6 +5,33 @@ import {useTranslation} from "react-i18next";
 import {useParams} from "react-router-dom";
 import {Select} from "../../components/Select";
 
+function ChapterTextItem({chapterId, book, verses, active}) {
+    return <div className="mb-4">
+        <div className="bg-white  rounded-lg shadow-md">
+            <h2 className=" px-2 font-semibold mb-2" data-id={`${book.key} ${chapterId}`}>
+                {book.label}: {chapterId}
+            </h2>
+            {Object.entries(verses).map(([verseId, text]) => {
+                const dataId = `${book.key} ${chapterId}:${verseId}`;
+                return (
+                    <div
+                        key={dataId}
+                        className={`mb-2 p-2 rounded-lg ${
+                            active(dataId)
+                                ? 'bg-gray-300 hover:bg-gray-400 transition duration-300'
+                                : 'hover:bg-gray-300 transition duration-300'
+                        }`}
+                        data-id={dataId}
+                    >
+                        <span className="font-semibold">{verseId}</span>
+                        <span className="ml-2">{text}</span>
+                    </div>
+                );
+            })}
+        </div>
+    </div>
+}
+
 export const Text = () => {
     const {t} = useTranslation()
     const database = getDatabase();
@@ -23,10 +50,10 @@ export const Text = () => {
     }, [paramsId, snapshots.length]);
 
     const books = itemsBooks.map(({bookId}) => ({key: bookId, label: bookId}));
-    const [bookId, setBookId] = useState();
+    const [book, setBook] = useState();
 
-    const selectedBook = useMemo(() => itemsBooks.find(e => e.bookId === bookId?.key), [itemsBooks.length, bookId])
-    const chapters = selectedBook ? Object.keys(selectedBook?.chapters).map(e=>({key: e, label: e})) : []
+    const selectedBook = useMemo(() => itemsBooks.find(e => e.bookId === book?.key), [itemsBooks.length, book])
+    const chapters = selectedBook ? Object.keys(selectedBook?.chapters).map(e => ({key: e, label: e})) : []
     const [chapter, setChapter] = useState()
     useEffect(() => {
         if (books.length > 0) {
@@ -42,13 +69,13 @@ export const Text = () => {
 
     const setBookScroll = (bookId) => {
         const booksNew = books.find(({key}) => key === bookId)
-        setBookId(booksNew)
+        setBook(booksNew)
     }
 
-    const setChapterScroll = (val, verseId = null)=>{
-        const chapterNew = chapters.find((e)=>e.key === val)
+    const setChapterScroll = (val, verseId = null) => {
+        const chapterNew = chapters.find((e) => e.key === val)
         setChapter(chapterNew)
-        scrollTo(`${bookId.key} ${chapterNew.key}${verseId ? ":" + verseId : ""}`)
+        scrollTo(`${book.key} ${chapterNew.key}${verseId ? ":" + verseId : ""}`)
     }
     return (
         <div className="p-4">
@@ -58,34 +85,27 @@ export const Text = () => {
                 <div className="text-center text-red-500">{t('common.error')}</div>
             ) : <div className='flex flex-col gap-2'>
                 <div className="w-full flex gap-2">
-                    {bookId && <div className='w-full'><Select items={books} selected={bookId} setSelected={setBookScroll}/></div>}
-                    {selectedBook && <div className='flex-auto'><Select icon={false} items={chapters} selected={chapter} setSelected={setChapterScroll}/></div>}
+                    {book &&
+                        <div className='w-full'>
+                            <Select items={books}
+                                    selected={book}
+                                    setSelected={setBookScroll}/>
+                        </div>}
+                    {selectedBook && <div className='flex-auto'>
+                        <Select icon={false}
+                                items={chapters}
+                                selected={chapter}
+                                setSelected={setChapterScroll}/></div>}
                 </div>
-                <div className="overflow-auto max-h-[calc(100vh-13rem)]">
-                    {selectedBook && Object.entries(selectedBook.chapters).map(([chapterId, value]) => {
-                        //         console.log(val)
-                        return <div key={chapterId}>
-                            <h2 className="font-semibold mb-2"
-                                data-id={`${bookId.key} ${chapterId}`}>
-                                {bookId.label}: {chapterId}
-                            </h2>
-                            {Object.entries(value).map(([verseId, text]) => {
-                                const dataId = `${bookId.key} ${chapterId}:${verseId}`
-                                return (
-                                    <div
-                                        key={dataId}
-                                        className={`mb-2 ${dataId === paramsId
-                                            ? 'bg-gray-300 hover:bg-gray-400 transition duration-300'
-                                            : 'hover:bg-gray-300 transition duration-300'}`}
-                                        data-id={dataId}
-                                    >
-                                        <span className="font-semibold">{verseId}</span>
-                                        <span className="ml-2">{text}</span>
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    })}
+                <div className="overflow-auto max-h-[calc(100vh-64px-56px-86px)]">
+                    {selectedBook && Object.entries(selectedBook.chapters).map(([chapterId, value]) =>
+                        (
+                            <ChapterTextItem key={chapterId}
+                                             verses={value}
+                                             book={book}
+                                             chapterId={chapterId}
+                                             active={(dataId) => dataId === paramsId}/>
+                        ))}
                 </div>
             </div>}
         </div>

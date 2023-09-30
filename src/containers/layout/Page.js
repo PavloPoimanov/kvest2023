@@ -9,7 +9,7 @@ export const Page = () => {
             <Header />
 
             <main className="flex-grow overflow-y-auto">
-                <div className="max-h-[calc(100vh-10rem)]">
+                <div className="max-h-[calc(100vh-64px-56px)]">
                     <Content />
                 </div>
             </main>
