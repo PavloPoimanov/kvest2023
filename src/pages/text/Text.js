@@ -33,25 +33,25 @@ export const Text = () => {
     const [chapter, setChapter] = useState()
     useEffect(() => {
         if (books.length > 0) {
-            setBookScroll(books[0].key)
+            setBookScroll(params.bookId ? params.bookId : books[0].key)
         }
-    }, [books.length]);
+    }, [books.length, params.bookId]);
 
     useEffect(() => {
         if (chapters.length > 0) {
-            setChapterScroll(chapters[0].key)
+            setChapterScroll(params.chapterId ? params.chapterId : chapters[0].key, params.verseId)
         }
-    }, [chapters.length]);
+    }, [chapters.length, params.chapterId, params.verseId]);
 
     const setBookScroll = (bookId) => {
         const booksNew = books.find(({key}) => key === bookId)
         setBookId(booksNew)
     }
 
-    const setChapterScroll = (val)=>{
+    const setChapterScroll = (val, verseId = null)=>{
         const chapterNew = chapters.find((e)=>e.key === val)
         setChapter(chapterNew)
-        scrollTo(`${bookId.key} ${chapterNew.key}`)
+        scrollTo(`${bookId.key} ${chapterNew.key}${verseId ? ":" + verseId : ""}`)
     }
     return (
         <div className="p-4">
