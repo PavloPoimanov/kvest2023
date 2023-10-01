@@ -38,5 +38,7 @@
   "sort.number": "Число",
   "sort.place": "Місце",
   "errorRequired": "Обов'язкове поле",
-  "errorMax": "Максимальне значення:"
+  "errorMax": "Максимальне значення:",
+  "errorInvalidFormat": "Не вірний формат",
+  "errorFormatlink": "(1 Хроніки 1:1 | 2 Самуїлова 2:1)"
 }

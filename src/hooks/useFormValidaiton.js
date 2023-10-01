@@ -24,17 +24,22 @@ export function useFormValidation(initialState, validationRules) {
             const value = formData[field];
             const rules = validationRules[field];
             rules.forEach((rule) => {
-                if (rule === 'required' && !value.trim()) {
-                    newErrors[field] = t('common.errorRequired');
-                } else if (rule.startsWith('max') && value.length > parseInt(rule.substring(3), 10)) {
-                    newErrors[field] = `${t('common.errorMax')}${parseInt(rule.substring(3), 10)}`;
+                if (typeof rule === 'string') {
+                    if (rule === 'required' && !value.trim()) {
+                        newErrors[field] = t('common.errorRequired');
+                    } else if (rule.startsWith('max') && value.length > parseInt(rule.substring(3), 10)) {
+                        newErrors[field] = `${t('common.errorMax')}${parseInt(rule.substring(3), 10)}`;
+                    }
+                }
+                if (rule instanceof RegExp && !rule.test(value)) {
+                    console.log(rule.test(value))
+                    newErrors[field] = `${t('common.errorInvalidFormat')} ${t(`common.errorFormat${field}`)}` // Replace with your own error message
                 }
             });
         });
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
     return {
         formData,
         setFormData,

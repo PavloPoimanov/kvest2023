@@ -22,7 +22,6 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-
     "emulator": "firebase emulators:start",
     "deploy": "firebase deploy",
     "migration": "cd ./migration && npm run dev"

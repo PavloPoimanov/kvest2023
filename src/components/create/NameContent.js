@@ -5,12 +5,6 @@ import {useFormValidation} from "../../hooks/useFormValidaiton";
 export function NameContent({setOnSubmit, shouldFormReset}) {
     const {t} = useTranslation(); // Use the useTranslation hook to access translations
 
-    const validationRules = {
-        name: ['required', 'max512'],
-        description: ['max2048'],
-        link: ['required', 'max512'],
-    };
-
     const onSubmit = (action) => {
         const isValid = validate();
         if (isValid) {
@@ -30,6 +24,12 @@ export function NameContent({setOnSubmit, shouldFormReset}) {
 
     setOnSubmit(onSubmit);
 
+    const validationRules = {
+        name: ['required', 'max512'],
+        description: ['max2048'],
+        link: ['required', 'max512', /^[1,2] (?:Хроніки|Самуїлова) \d*:\d*$/], // Example regex pattern for a URL
+    };
+
     const {
         formData,
         setFormData,
@@ -43,7 +43,6 @@ export function NameContent({setOnSubmit, shouldFormReset}) {
             link: '',
         },
         validationRules,
-        onSubmit
     );
 
 
