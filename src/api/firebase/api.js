@@ -11,6 +11,14 @@ export const updateById = (path, key, data)=>{
         [key]: data
     });
 }
+export const createBy = (path, data)=>{
+    const db = getDatabase();
+    const namesRef = ref(db, path);
+    const newPostRef = push(namesRef);
+
+    return set(newPostRef, data);
+}
+
 export const createName = ({name, description, usage_count, link, href}) => {
     const db = getDatabase();
     const namesRef = ref(db, 'names');

@@ -4,7 +4,6 @@ import {getDatabase, query, ref} from "firebase/database";
 import {useList} from "react-firebase-hooks/database";
 import {NumberListItem} from "../../components/NumberListItem";
 
-
 function Numbers() {
     const database = getDatabase();
     const [snapshots, loading, error] = useList(query(ref(database, 'numbers')));

@@ -19,9 +19,15 @@
   "save": "Зберегти",
   "continueAdd": "Продовжити додавати",
   "nameContent": "Додати нове І'мя",
+  "placeContent": "Додати нове Місце",
+  "numberContent": "Додати нове Число",
+  "qouteContent": "Додати нову Цитату",
   "enterName": "Введіть ім'я",
   "description": "Опис",
   "enterDescription": "Введіть опис",
+  "enterPlace": "Введіть опис",
+  "enterNumber": "Введіть число",
+  "enterQuote": "Введіть цитату",
   "link": "Посилання",
   "enterLink": "Введіть посилання",
   "allCount": "Усього:",
@@ -40,5 +46,7 @@
   "errorRequired": "Обов'язкове поле",
   "errorMax": "Максимальне значення:",
   "errorInvalidFormat": "Не вірний формат",
-  "errorFormatlink": "(1 Хроніки 1:1 | 2 Самуїлова 2:1)"
+  "errorFormatlink": "(1 Хроніки 1:1 | 2 Самуїлова 2:1)",
+  "errorFormatnumber": "повинно бути число",
+  "errorFormatname": "повинно бути число"
 }

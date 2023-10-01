@@ -3,46 +3,11 @@ import {Dialog, Switch} from '@headlessui/react';
 import {Select} from "../components/Select";
 import {useTranslation} from "react-i18next";
 import {NameContent} from "../components/create/NameContent";
-import {useSnackbar} from "notistack";
-import {createName, getBy, updateById} from "../api/firebase/api";
-import {parseLink} from "../lib/parseLink";
-
-// Place Content
-function PlaceContent() {
-    const {t} = useTranslation();
-
-    return (
-        <div>
-            <h4 className="text-lg font-medium">{t('common.notReady')}</h4>
-            <p className="text-gray-600 mt-2">{t('common.notReady')}</p>
-        </div>
-    );
-}
-
-// Number Content
-function NumberContent() {
-    const {t} = useTranslation();
-
-    return (
-        <div>
-            <h4 className="text-lg font-medium">{t('common.notReady')}</h4>
-            <p className="text-gray-600 mt-2">{t('common.notReady')}</p>
-        </div>
-    );
-}
-
-// Quote Content
-function QuoteContent() {
-    const {t} = useTranslation();
-
-    return (
-        <div>
-            <h4 className="text-lg font-medium">{t('common.notReady')}</h4>
-            <p className="text-gray-600 mt-2">{t('common.notReady')}</p>
-        </div>
-    );
-}
-
+import {useExistCreate} from "../hooks/useExistCreate";
+import {PlaceContent} from "../components/create/PlaceContent";
+import {NumberContent} from "../components/create/NumberContent";
+import {useCreate} from "../hooks/useCreate";
+import {QuoteContent} from "../components/create/QouteContent";
 
 function CreateFeature({onClose}) {
     const {t} = useTranslation();
@@ -62,62 +27,31 @@ function CreateFeature({onClose}) {
             }
         });
     }
-    const {enqueueSnackbar} = useSnackbar();
-
+    const handleName = useExistCreate("names")
+    const handlePlace = useExistCreate("places")
+    const handleNumbers = useCreate("numbers")
+    const handleQuote = useCreate("quotes")
 
     const options = [
         {
             key: 'name',
             label: t('common.name'),
-            content: <NameContent setOnSubmit={handleSetOnSubmit(async (formData) => {
-                const snapshot = await getBy(formData, "names", "name");
-                if (snapshot.exists()) {
-                    const [[key, val]] = Object.entries(snapshot.val())
-                    await updateById("names", key, {
-                        name: formData.name,
-                        description: formData.description,
-                        usage_count: val.usage_count + 1,
-                        link: parseLink(formData.link),
-                        href: formData.link
-                    })
-                    enqueueSnackbar(t('common.updated'), {
-                        variant: 'success',
-                    })
-                } else {
-                    await createName({
-                        name: formData.name,
-                        description: formData.description,
-                        usage_count: 1,
-                        link: parseLink(formData.link),
-                        href: formData.link
-                    })
-                    enqueueSnackbar(t('common.created'), {
-                        variant: 'success',
-                    })
-                }
-
-            })} shouldFormReset={isAddMoreEnabled}/>,
+            content: <NameContent setOnSubmit={handleSetOnSubmit(handleName)} shouldFormReset={isAddMoreEnabled}/>,
         },
         {
             key: 'place',
             label: t('common.place'),
-            content: <PlaceContent setOnSubmit={handleSetOnSubmit((formData) => {
-                console.log('sendRequ, na')
-            })} shouldFormReset={isAddMoreEnabled}/>
+            content: <PlaceContent setOnSubmit={handleSetOnSubmit(handlePlace)} shouldFormReset={isAddMoreEnabled}/>
         },
         {
             key: 'number',
             label: t('common.number'),
-            content: <NumberContent setOnSubmit={handleSetOnSubmit((formData) => {
-                console.log('sendRequ, na')
-            })} shouldFormReset={isAddMoreEnabled}/>
+            content: <NumberContent setOnSubmit={handleSetOnSubmit(handleNumbers)} shouldFormReset={isAddMoreEnabled}/>
         },
         {
             key: 'quote',
             label: t('common.quote'),
-            content: <QuoteContent setOnSubmit={handleSetOnSubmit((formData) => {
-                console.log('sendRequ, na')
-            })} shouldFormReset={isAddMoreEnabled}/>
+            content: <QuoteContent setOnSubmit={handleSetOnSubmit(handleQuote)} shouldFormReset={isAddMoreEnabled}/>
         },
     ];
 
