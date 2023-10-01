@@ -1,22 +1,40 @@
-import {equalTo, update, get, getDatabase, orderByChild, push, query, ref, set, limitToFirst} from "firebase/database";
+import {
+    child,
+    equalTo,
+    get,
+    getDatabase,
+    limitToFirst,
+    orderByChild,
+    push,
+    query,
+    ref,
+    remove,
+    set,
+    update
+} from "firebase/database";
 
 export const getBy = (obj, path, orderBy, limit = 1) => {
     return get(query(ref(getDatabase(), path), orderByChild(orderBy), equalTo(obj[orderBy]), limitToFirst(limit)))
 }
 
-export const updateById = (path, key, data)=>{
+export const updateById = (path, key, data) => {
     const db = getDatabase();
 
     return update(ref(db, path), {
         [key]: data
     });
 }
-export const createBy = (path, data)=>{
+export const createBy = (path, data) => {
     const db = getDatabase();
     const namesRef = ref(db, path);
     const newPostRef = push(namesRef);
 
     return set(newPostRef, data);
+}
+export const removeByKey = (path, key) => {
+    const db = getDatabase();
+    const namesRef = ref(db, path);
+    return remove(child(namesRef, key));
 }
 
 export const createName = ({name, description, usage_count, link, href}) => {

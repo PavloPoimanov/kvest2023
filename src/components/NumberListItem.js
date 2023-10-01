@@ -1,8 +1,9 @@
 import {Link} from "react-router-dom";
 import {makeLink} from "../lib/makeLink";
 import React from "react";
+import {DeleteIconButton} from "./DeleteIconButton";
 
-export const NumberListItem = ({item: {number, description, href, link}}) => {
+export const NumberListItem = ({item: {number, description, href, link}, onDelete}) => {
     return (
         <div className="bg-gray-100 p-4 shadow-lg rounded-lg transition transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center">
@@ -24,6 +25,7 @@ export const NumberListItem = ({item: {number, description, href, link}}) => {
                     {href}
                 </Link>
             </div>
+            <DeleteIconButton onDelete={onDelete}/>
         </div>
     );
 };

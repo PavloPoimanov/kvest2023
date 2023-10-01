@@ -1,35 +1,21 @@
-import {Fragment, useState} from 'react'
+import {Fragment} from 'react'
 import {Disclosure, Transition} from '@headlessui/react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import {Logo} from "./Logo";
 import {Link} from "react-router-dom";
 import {useAppPopupDialog} from "../context/dialogContext";
-import {PlusIcon} from "@heroicons/react/20/solid";
 import {useTranslation} from "react-i18next";
 import CreateFeature from "../containers/CreateFeature";
+import {PlusIcon} from "@heroicons/react/20/solid";
+import {IconButton} from "./IconButton";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-
-function IconButton({onClick}) {
-    const {t} = useTranslation()
-    return (
-        <div className="relative inline-block">
-            <button
-                onClick={onClick}
-                className={`flex gap-2 items-center focus:outline-none bg-gray-200 text-gray-600 hover:text-white hover:bg-blue-600 rounded-full p-2`}
-            >
-                <span className='hidden md:block'>{t('common.add')}</span>
-                <PlusIcon className="w-5 h-5"/>
-            </button>
-        </div>
-    );
-}
-
 export const Navbar = ({navigation}) => {
     const {openModal, closeModal} = useAppPopupDialog();
+    const {t} = useTranslation();
 
     return (
         <Disclosure as="nav" className="bg-gray-800">
@@ -75,7 +61,10 @@ export const Navbar = ({navigation}) => {
                                 <div
                                     className="absolute inset-y-0 sm:right-0 left-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                                     {/*<LanguageSwitch/>*/}
-                                    <IconButton onClick={() => openModal({content: <CreateFeature onClose={closeModal}/>})}/>
+                                    <IconButton className={"relative inline-block"} onClick={() => openModal({content: <CreateFeature onClose={closeModal}/>})}>
+                                        <span className='hidden md:block'>{t('common.add')}</span>
+                                        <PlusIcon className="w-5 h-5"/>
+                                    </IconButton>
                                 </div>
                             </div>
                         </div>
