@@ -8,6 +8,7 @@ import {PlaceContent} from "../components/create/PlaceContent";
 import {NumberContent} from "../components/create/NumberContent";
 import {useCreate} from "../hooks/useCreate";
 import {QuoteContent} from "../components/create/QouteContent";
+import {useLocation} from "react-router-dom";
 
 function CreateFeature({onClose}) {
     const {t} = useTranslation();
@@ -32,30 +33,38 @@ function CreateFeature({onClose}) {
     const handleNumbers = useCreate("numbers")
     const handleQuote = useCreate("quotes")
 
+    const location = useLocation();
+
     const options = [
         {
             key: 'name',
             label: t('common.name'),
+            current: location?.pathname === "/names",
             content: <NameContent setOnSubmit={handleSetOnSubmit(handleName)} shouldFormReset={isAddMoreEnabled}/>,
         },
         {
             key: 'place',
             label: t('common.place'),
+            current: location?.pathname === "/places",
             content: <PlaceContent setOnSubmit={handleSetOnSubmit(handlePlace)} shouldFormReset={isAddMoreEnabled}/>
         },
         {
             key: 'number',
             label: t('common.number'),
+            current: location?.pathname === "/numbers",
             content: <NumberContent setOnSubmit={handleSetOnSubmit(handleNumbers)} shouldFormReset={isAddMoreEnabled}/>
         },
         {
             key: 'quote',
             label: t('common.quote'),
+            current: location?.pathname === "/quotes",
             content: <QuoteContent setOnSubmit={handleSetOnSubmit(handleQuote)} shouldFormReset={isAddMoreEnabled}/>
         },
     ];
 
-    const [selectedOption, setSelectedOption] = useState(options[0]);
+    const activeOption = options.find(({current})=>current);
+
+    const [selectedOption, setSelectedOption] = useState(activeOption??options[0]);
 
     const handleOptionChange = (event) => {
         const newOption = options.find((opt) => opt.key === event);
