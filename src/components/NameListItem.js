@@ -1,8 +1,12 @@
 import {Link} from "react-router-dom";
 import {makeLink} from "../lib/makeLink";
 import {DeleteIconButton} from "./DeleteIconButton";
+import {useAuthState} from "react-firebase-hooks/auth";
+import {useFireBase} from "../context/fireBaseContext";
 
 export const NameListItem = ({item: {name, description, link, href}, onDelete}) => {
+    const {auth, googleProvider} = useFireBase();
+    const [loggedUser] = useAuthState(auth);
     return (
         <div
             className="relative bg-gray-100 p-4 shadow-lg rounded-lg transform hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out">
@@ -20,7 +24,7 @@ export const NameListItem = ({item: {name, description, link, href}, onDelete}) 
                     {href}
                 </Link>
             </div>
-            <DeleteIconButton onDelete={onDelete}/>
+            {loggedUser && <DeleteIconButton onDelete={onDelete}/>}
         </div>
     );
 }
