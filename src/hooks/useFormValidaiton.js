@@ -27,19 +27,34 @@ export function useFormValidation(initialState, validationRules) {
                 if (typeof rule === 'string') {
                     if (rule === 'required' && !value.trim()) {
                         newErrors[field] = t('common.errorRequired');
+                    } else if (rule === 'email' && !isValidEmail(value)) {
+                        newErrors[field] = t('common.errorInvalidEmail');
+                    } else if (rule.startsWith('minLength:')) {
+                        const minLength = parseInt(rule.substring(10), 10); // Extract the dynamic length
+                        if (value.length < minLength) {
+                            newErrors[field] = `${t('common.errorMinLength')} ${minLength}`;
+                        }
                     } else if (rule.startsWith('max') && value.length > parseInt(rule.substring(3), 10)) {
                         newErrors[field] = `${t('common.errorMax')}${parseInt(rule.substring(3), 10)}`;
                     }
                 }
                 if (rule instanceof RegExp && !rule.test(value)) {
                     console.log(rule.test(value))
-                    newErrors[field] = `${t('common.errorInvalidFormat')} ${t(`common.errorFormat${field}`)}` // Replace with your own error message
+                    newErrors[field] = `${t('common.errorInvalidFormat')} ${t(`common.errorFormat${field}`)}`; // Replace with your own error message
                 }
             });
         });
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+
+    const isValidEmail = (email) => {
+        // You can use a regular expression or a library like validator.js for email validation
+        // Here's a simple regular expression for basic email validation
+        const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+        return emailRegex.test(email);
+    };
+
     return {
         formData,
         setFormData,

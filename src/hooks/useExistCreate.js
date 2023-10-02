@@ -3,7 +3,7 @@ import {useSnackbar} from "notistack";
 import {useTranslation} from "react-i18next";
 import {parseLink} from "../lib/parseLink";
 
-export const useExistCreate = (path = "names", orderBy = "name") => {
+export const useExistCreate = (path = "names",userId = null, orderBy = "name", ) => {
     const {enqueueSnackbar} = useSnackbar();
     const {t} = useTranslation();
     return async (formData)=> {
@@ -15,6 +15,7 @@ export const useExistCreate = (path = "names", orderBy = "name") => {
                 usage_count: val.usage_count + 1,
                 link: parseLink(formData.link),
                 href: formData.link,
+                userId
             })
             enqueueSnackbar(t('common.updated'), {
                 variant: 'success',
@@ -25,6 +26,7 @@ export const useExistCreate = (path = "names", orderBy = "name") => {
                 ...formData,
                 link: parseLink(formData.link),
                 href: formData.link,
+                userId
             })
             enqueueSnackbar(t('common.created'), {
                 variant: 'success',

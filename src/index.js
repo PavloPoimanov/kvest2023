@@ -5,18 +5,23 @@ import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router-dom";
 import './styles/index.css';
 import './plugins/language/i18n'
-import './firebase'
 import {ModalProvider} from "./context/dialogContext";
 import {SnackbarProvider} from 'notistack';
+import {FireBaseProvider} from "./context/fireBaseContext";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <BrowserRouter>
-        <SnackbarProvider>
-            <ModalProvider>
-                <App/>
-            </ModalProvider>
-        </SnackbarProvider>
+        <FireBaseProvider>
+            <SnackbarProvider autoHideDuration={2000} anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center',
+            }}>
+                <ModalProvider>
+                    <App/>
+                </ModalProvider>
+            </SnackbarProvider>
+        </FireBaseProvider>
     </BrowserRouter>
 );
 
