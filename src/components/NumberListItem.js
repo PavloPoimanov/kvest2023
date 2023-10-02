@@ -5,7 +5,7 @@ import {DeleteIconButton} from "./DeleteIconButton";
 
 export const NumberListItem = ({item: {number, description, href, link}, onDelete}) => {
     return (
-        <div className="bg-gray-100 p-4 shadow-lg rounded-lg transition transform hover:scale-105 hover:shadow-xl">
+        <div className="bg-gray-100 p-4 pr-8 shadow-lg rounded-lg transition transform hover:scale-105 hover:shadow-xl">
             <div className="flex items-center">
                 <span
                     className="text-lg font-bold text-gray-700 hover:text-blue-500 transition duration-300 ease-in-out">{number}</span>

@@ -1,6 +1,6 @@
 import {useFireBase} from "../../context/fireBaseContext";
-import {useAuthState, useSignInWithEmailAndPassword,} from "react-firebase-hooks/auth";
-import {useEffect} from "react";
+import {useAuthState, useSignInWithEmailAndPassword, useSignInWithGoogle,} from "react-firebase-hooks/auth";
+import React, {useEffect} from "react";
 import {useSnackbar} from "notistack";
 import {Link, useNavigate} from 'react-router-dom';
 import {useTranslation} from "react-i18next";
@@ -47,6 +47,16 @@ export const SignIn = () => {
         }
     }, [loggedUser]);
 
+    // Google Sign-up
+    const [signInWithGoogle, googleUser, googleLoading, googleError] = useSignInWithGoogle(auth);
+
+    const handleSignUpWithGoogle = async () => {
+        try {
+            await signInWithGoogle();
+        } catch (error) {
+            console.error('Google sign-up error', error);
+        }
+    };
     return (
         <div className="flex items-center justify-center flex-grow bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-md w-[400px]"><h2
@@ -89,6 +99,13 @@ export const SignIn = () => {
                 >
                     {t('common.signInButton')}
                 </button>
+                <button
+                    onClick={handleSignUpWithGoogle}
+                    className="w-full py-2 px-4 mt-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-200"
+                >{t('common.signInButtonGoogle')}</button>
+                {googleError && (
+                    <p className="text-red-600 mt-2">{googleError.message}</p>
+                )}
                 {error && (
                     <p className="text-red-600 mt-2">{error.message}</p>
                 )}

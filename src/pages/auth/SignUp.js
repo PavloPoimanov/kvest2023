@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {useAuthState, useCreateUserWithEmailAndPassword} from "react-firebase-hooks/auth";
+import {useAuthState, useCreateUserWithEmailAndPassword, useSignInWithGoogle} from "react-firebase-hooks/auth";
 import {useTranslation} from "react-i18next";
 import {useFireBase} from "../../context/fireBaseContext";
 import {useFormValidation} from "../../hooks/useFormValidaiton";
@@ -7,7 +7,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useSnackbar} from "notistack";
 
 export const SignUp = () => {
-    const {auth} = useFireBase();
+    const {auth, googleProvider} = useFireBase();
     const [loggedUser] = useAuthState(auth);
     const [
         createUserWithEmailAndPassword,

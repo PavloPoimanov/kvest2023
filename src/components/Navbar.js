@@ -67,17 +67,17 @@ export const Navbar = ({navigation}) => {
             <div className="fixed inset-0 z-10"/>
             <Dialog.Panel
                 className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-800 px-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-                <div className="flex items-center justify-between h-16">
-                    {user && <AddButton
+                <div className="flex items-center justify-between h-16 md:flex-row-reverse">
+                    {user && <div className='md:hidden block'><AddButton
                         user={user}
                         onClick={() => setMobileMenuOpen(false)}
-                        openModal={openModal} closeModal={closeModal}/>}
-                    <Logo
+                        openModal={openModal} closeModal={closeModal}/></div>}
+                    <div className='md:hidden block'><Logo
                         onClick={() => setMobileMenuOpen(false)}
-                    />
+                    /></div>
                     <button
                         type="button"
-                        className="-m-2.5 rounded-md p-2.5 text-gray-400"
+                        className="-m-2.5 rounded-md p-2.5 text-gray-400 "
                         onClick={() => setMobileMenuOpen(false)}
                     >
                         <span className="sr-only">Close menu</span>
