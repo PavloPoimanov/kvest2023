@@ -1,15 +1,21 @@
 import {getDatabase, query, ref} from "firebase/database";
 import {useList} from "react-firebase-hooks/database";
-import React, {useEffect, useMemo, useState} from "react";
+import React, {useEffect, useMemo, useRef, useState} from "react";
 import {useTranslation} from "react-i18next";
 import {useParams} from "react-router-dom";
 import {Select} from "../../components/Select";
 
-function ChapterTextItem({chapterId, book, verses, active}) {
+function ChapterTextItem({chapterId, book, verses, active, setRef}) {
+    const ref = useRef();
+
+    useEffect(() => {
+        setRef(ref.current);
+    }, [])
+
     return <div className="mb-4">
         <div className="bg-white  rounded-lg shadow-md">
-            <h2 className=" px-2 font-semibold mb-2" data-id={`${book.key} ${chapterId}`}>
-                {book.label}: {chapterId}
+            <h2 className=" px-2 font-semibold mb-2" ref={ref} data-id={`${book.key} ${chapterId}`}>
+                {book.label} {chapterId}
             </h2>
             {Object.entries(verses).map(([verseId, text]) => {
                 const dataId = `${book.key} ${chapterId}:${verseId}`;
@@ -77,6 +83,11 @@ export const Text = () => {
         setChapter(chapterNew)
         scrollTo(`${book.key} ${chapterNew.key}${verseId ? ":" + verseId : ""}`)
     }
+    const refs = useRef([])
+    const handleInnerRef = (chapterId) => (innerRef) => {
+        refs.current.push({chapterId, innerRef})
+    }
+
     return (
         <div className="p-4">
             {loading ? (
@@ -97,13 +108,14 @@ export const Text = () => {
                                 selected={chapter}
                                 setSelected={setChapterScroll}/></div>}
                 </div>
-                <div className="overflow-auto max-h-[calc(100vh-64px-56px-86px)]">
+                <div className="overflow-auto max-h-[calc(100vh-64px-56px-86px)]" onScroll={(e) => {}}>
                     {selectedBook && Object.entries(selectedBook.chapters).map(([chapterId, value]) =>
                         (
                             <ChapterTextItem key={chapterId}
                                              verses={value}
                                              book={book}
                                              chapterId={chapterId}
+                                             setRef={handleInnerRef(chapterId)}
                                              active={(dataId) => dataId === paramsId}/>
                         ))}
                 </div>

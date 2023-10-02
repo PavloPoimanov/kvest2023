@@ -12,6 +12,8 @@ export const useCreate = (path = "names", userId) => {
             link: parseLink(formData.link),
             href: formData.link,
             userId,
+            created: new Date().toISOString(),
+            updated: new Date().toISOString()
         })
         enqueueSnackbar(t('common.created'), {
             variant: 'success',

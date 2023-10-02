@@ -24,16 +24,16 @@ export const createNames = () => {
     Object.entries(names).forEach(([key, value]) => {
         value.forEach((nameItem) => {
             if (!result[nameItem.name]) {
-                result[nameItem.name] = nameItem
+                result[nameItem.name] = {...nameItem, links: {[nameItem.link]: parseLink(nameItem.link)}}
             } else {
                 result[nameItem.name].usage_count += nameItem.usage_count
-                // result[nameItem.name].description += nameItem.description
+                result[nameItem.name].links = {...result[nameItem.name].links, ...{[nameItem.link]: parseLink(nameItem.link)}}
             }
         })
     })
 
     Object.entries(result).forEach(([key, e]) => {
-        createName({...e, href: e.link, link: parseLink(e.link)}).then(() => {
+        createName({...e}).then(() => {
             console.log('name:migration successful', e)
         }).catch((er) => {
             console.log('name:migration fail', er)
@@ -53,7 +53,7 @@ export const createNumbers = () => {
 
 export const createPlaces = () => {
     places.forEach((e) => {
-        createPlace({...e, href: e.link, link: parseLink(e.link)}).then(() => {
+        createPlace({...e, links: {[e.link]: parseLink(e.link)}}).then(() => {
             console.log('places:migration successful', e)
         }).catch((er) => {
             console.log('places:migration fail', er)

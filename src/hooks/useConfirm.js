@@ -7,7 +7,7 @@ export const useConfirm = () => {
     const {openModal, closeModal} = useAppPopupDialog()
     const {t} = useTranslation()
 
-    const confirm = useCallback((text, content) => {
+    const confirm = useCallback((text, content, confirmText) => {
         let resolveCallback
         const handleConfirm = (isConfirmed) => {
             closeModal()

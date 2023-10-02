@@ -1,6 +1,6 @@
 import { getDatabase, ref, set, push, child } from "firebase/database";
 
-export const createName = ({name, description, usage_count, link, href}) => {
+export const createName = ({name, description, usage_count, links}) => {
     const db = getDatabase();
     const namesRef = ref(db, 'names');
     const newPostRef = push(namesRef);
@@ -8,8 +8,8 @@ export const createName = ({name, description, usage_count, link, href}) => {
         name,
         description,
         usage_count,
-        href,
-        link: link ? link : ""
+        links,
+        created: new Date().toISOString()
     });
 };
 
@@ -21,19 +21,20 @@ export const createNumber = ({name, description, link, href}) => {
         name,
         description,
         href,
-        link: link ? link : ""
+        link: link ? link : "",
+        created: new Date().toISOString()
     });
 };
 
-export const createPlace = ({name, description, link, href}) => {
+export const createPlace = ({name, description, links}) => {
     const db = getDatabase();
     const namesRef = ref(db, 'places');
     const newPostRef = push(namesRef);
     return set(newPostRef, {
         name,
         description,
-        href,
-        link: link ? link : ""
+        links,
+        created: new Date().toISOString()
     });
 };
 export const createQuote = ({name, description, link, href}) => {
@@ -44,6 +45,7 @@ export const createQuote = ({name, description, link, href}) => {
         name,
         description,
         href,
+        created: new Date().toISOString(),
         link: link ? link : ""
     });
 };
