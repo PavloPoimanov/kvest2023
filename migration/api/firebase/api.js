@@ -1,4 +1,17 @@
-import { getDatabase, ref, set, push, child } from "firebase/database";
+import {getDatabase, ref, set,get, push,query, child, update} from "firebase/database";
+
+
+export const getByPath = (path) => {
+    return get(ref(getDatabase(), path))
+}
+
+export const updateById = (path, key, data) => {
+    const db = getDatabase();
+
+    return update(ref(db, path), {
+        [key]: data
+    });
+}
 
 export const createName = ({name, description, usage_count, links}) => {
     const db = getDatabase();

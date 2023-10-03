@@ -17,10 +17,6 @@ export const getBy = (obj, path, orderBy, limit = 1) => {
     return get(query(ref(getDatabase(), path), orderByChild(orderBy), equalTo(obj[orderBy]), limitToFirst(limit)))
 }
 
-export const getPath = (path) => {
-    return getPath(ref(getDatabase(), path))
-}
-
 export const updateById = (path, key, data) => {
     const db = getDatabase();
 

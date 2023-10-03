@@ -10,12 +10,12 @@ export function useFilter({initData}) {
         }
         return acc
     }, {});
-    const filterComponent = usersList.length ? (props) => <UserFilter {...props}
+    const filterComponent = Object.keys(usersList).length ? (props) => <UserFilter {...props}
                                                                       usersList={usersList}
                                                                       filterState={filterState}
                                                                       setFilterState={setFilterState}/> : () => null
 
-    const filterClb = usersList.length ? (item) => {
+    const filterClb = Object.keys(usersList).length ? (item) => {
         const [key] = getUserInfo(item.users)
         if (!filterState.users.length) {
             return true
