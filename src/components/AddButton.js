@@ -12,7 +12,7 @@ export function AddButton({
     return <IconButton className={"relative inline-block"} onClick={() => {
         onClick()
         openModal({
-            content: <CreateFeature onClose={closeModal} userId={user.uid}/>
+            content: <CreateFeature onClose={closeModal} user={user}/>
         })
     }}>
         <span className={compact ? 'hidden md:block' : "block"}>{t('common.add')}</span>

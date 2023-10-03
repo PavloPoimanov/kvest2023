@@ -3,7 +3,7 @@ import {useSnackbar} from "notistack";
 import {useTranslation} from "react-i18next";
 import {parseLink} from "../lib/parseLink";
 
-export const useCreate = (path = "names", userId) => {
+export const useCreate = (path = "names", user) => {
     const {enqueueSnackbar} = useSnackbar();
     const {t} = useTranslation();
     return async (formData) => {
@@ -11,7 +11,7 @@ export const useCreate = (path = "names", userId) => {
             ...formData,
             link: parseLink(formData.link),
             href: formData.link,
-            userId,
+            users: {[user.uid]: {name: user.displayName, email: user.email}},
             created: new Date().toISOString(),
             updated: new Date().toISOString()
         })

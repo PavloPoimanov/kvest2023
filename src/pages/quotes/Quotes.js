@@ -4,6 +4,7 @@ import {getDatabase, query, ref} from "firebase/database";
 import {useList} from "react-firebase-hooks/database";
 import {QuoteListItem} from "../../components/QuoteListItem";
 import {useDelete} from "../../hooks/useDelete";
+import {useFilter} from "../../hooks/useFilter";
 
 function Quotes() {
     const database = getDatabase();
@@ -13,10 +14,16 @@ function Quotes() {
         return ({...val, id: e.key, author: val.name, quote: val.description});
     })
     const deleteName = useDelete("quotes")
+    const {filterComponent, filterClb} = useFilter({initData: items})
 
-    return <DataList items={items} loading={loading} error={error} sortingKeys={["author", "quote"]}
+    return <DataList items={items}
+                     loading={loading}
+                     error={error}
+                     sortingKeys={["author", "quote"]}
+                     filter={filterComponent}
+                     filterClb={filterClb}
                      defaultSortKey={"author"}>
-        {(item) => <QuoteListItem key={item.id} item={item} onDelete={()=>deleteName(item.id)}/>}
+        {(item) => <QuoteListItem key={item.id} item={item} onDelete={() => deleteName(item.id)}/>}
     </DataList>
 }
 

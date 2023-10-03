@@ -39,7 +39,6 @@ export function useFormValidation(initialState, validationRules) {
                     }
                 }
                 if (rule instanceof RegExp && !rule.test(value)) {
-                    console.log(rule.test(value))
                     newErrors[field] = `${t('common.errorInvalidFormat')} ${t(`common.errorFormat${field}`)}`; // Replace with your own error message
                 }
             });

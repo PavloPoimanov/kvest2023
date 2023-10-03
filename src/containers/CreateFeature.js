@@ -10,7 +10,7 @@ import {useCreate} from "../hooks/useCreate";
 import {QuoteContent} from "../components/create/QouteContent";
 import {useLocation} from "react-router-dom";
 
-function CreateFeature({onClose, userId}) {
+function CreateFeature({onClose, user}) {
     const {t} = useTranslation();
 
     const submitRef = useRef();
@@ -28,10 +28,10 @@ function CreateFeature({onClose, userId}) {
             }
         });
     }
-    const handleName = useExistCreate("names", userId)
-    const handlePlace = useExistCreate("places", userId)
-    const handleNumbers = useCreate("numbers", userId)
-    const handleQuote = useCreate("quotes", userId)
+    const handleName = useExistCreate("names", user)
+    const handlePlace = useExistCreate("places", user)
+    const handleNumbers = useCreate("numbers", user)
+    const handleQuote = useCreate("quotes", user)
 
     const location = useLocation();
 

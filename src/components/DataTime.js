@@ -6,7 +6,7 @@ export function DataTime(props) {
     const {t} = useTranslation()
     const updatedAt = `${t("common.updatedAt")} ${toLongDate(props.updated)}`;
     const createdAt = `${t("common.createdAt")} ${toLongDate(props.created)}`;
-    return <div className="text-gray-500 text-sm">
+    return <div className="text-gray-500 text-xs">
         {props.updated ? updatedAt : props.created ? createdAt : ""}
     </div>
 }

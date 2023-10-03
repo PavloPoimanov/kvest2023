@@ -9,7 +9,9 @@ const DataList = ({
                       error,
                       defaultSortKey = 'name',
                       sortingKeys = ['name', 'description', 'usage_count'],
-                      children
+                      children,
+                      filter,
+                      filterClb
                   }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [sortKey, setSortKey] = useState(defaultSortKey);
@@ -29,17 +31,20 @@ const DataList = ({
     };
 
     const filteredItems = useMemo(() => {
-        return items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.description.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        return items.filter((item) => item.name.toLowerCase().includes(searchTerm.toLowerCase()) || item.description.toLowerCase().includes(searchTerm.toLowerCase())).filter(filterClb);
     }, [items, searchTerm]);
 
     const sortedItems = useMemo(() => {
         return [...filteredItems].sort((a, b) => {
             const order = sortDirection === 'asc' ? 1 : -1;
             const el = a[sortKey];
+            if (sortKey === 'created' || sortKey === 'updated') {
+                return order * (Date.parse(a[sortKey]) > Date.parse(b[sortKey]))
+            }
             const tryParse = parseInt(el);
+
             if (!isNaN(tryParse)) {
-                return order * (a[sortKey] - b[sortKey]);
+                return -order * (a[sortKey] - b[sortKey]);
             } else {
                 if (typeof el === 'string') {
                     return order * a[sortKey].localeCompare(b[sortKey]);
@@ -78,9 +83,10 @@ const DataList = ({
                 />
                 <div
                     className="cursor-default flex rounded-lg bg-white py-2 pl-3 pr-3 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-900 sm:text-sm">
-                    {t('common.allCount')}
-                    {items.length}
+                    {t('common.filteredCount')}
+                    {filteredItems.length}
                 </div>
+                {filter({allItems: items.length, filteredItems: filteredItems.length})}
             </div>
             {items.length > 0 && (
                 <div className="mb-4">

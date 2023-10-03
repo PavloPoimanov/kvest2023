@@ -4,7 +4,7 @@ import {useTranslation} from "react-i18next";
 import {parseLink} from "../lib/parseLink";
 import {useConfirm} from "./useConfirm";
 
-export const useExistCreate = (path = "names", userId = null, orderBy = "name",) => {
+export const useExistCreate = (path = "names", user = null, orderBy = "name",) => {
     const {enqueueSnackbar} = useSnackbar();
     const {t} = useTranslation();
     const {confirm} = useConfirm();
@@ -21,7 +21,11 @@ export const useExistCreate = (path = "names", userId = null, orderBy = "name",)
                     links: val.links ? {
                         ...val.links, ...{[formData.link]: parseLink(formData.link)}
                     } : {[formData.link]: parseLink(formData.link)},
-                    userId,
+                    users: {
+                        ...val.users,
+                        ...{[user.uid]: {name: user.displayName, email: user.email}}
+                    },
+                    user: {name: user.displayName, email: user.email, uid: user.uid},
                     updated: new Date().toISOString()
                 })
                 enqueueSnackbar(t('common.updated'), {
@@ -33,8 +37,9 @@ export const useExistCreate = (path = "names", userId = null, orderBy = "name",)
                 usage_count: 1, ...formData,
                 link: parseLink(formData.link),
                 href: formData.link,
-                userId,
+                users: {[user.uid]: {name: user.displayName, email: user.email}},
                 links: {[formData.link]: parseLink(formData.link)},
+                updated: new Date().toISOString(),
                 created: new Date().toISOString(),
             })
             enqueueSnackbar(t('common.created'), {

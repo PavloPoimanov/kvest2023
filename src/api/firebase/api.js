@@ -17,6 +17,10 @@ export const getBy = (obj, path, orderBy, limit = 1) => {
     return get(query(ref(getDatabase(), path), orderByChild(orderBy), equalTo(obj[orderBy]), limitToFirst(limit)))
 }
 
+export const getPath = (path) => {
+    return getPath(ref(getDatabase(), path))
+}
+
 export const updateById = (path, key, data) => {
     const db = getDatabase();
 
@@ -30,6 +34,12 @@ export const createBy = (path, data) => {
     const newPostRef = push(namesRef);
 
     return set(newPostRef, data);
+}
+export const create = (path, key, data) => {
+    const db = getDatabase();
+    const namesRef = ref(db, path);
+
+    return set(child(namesRef, key), data);
 }
 export const removeByKey = (path, key) => {
     const db = getDatabase();
