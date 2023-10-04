@@ -14,7 +14,18 @@ import {
 } from "firebase/database";
 
 export const getBy = (obj, path, orderBy, limit = 1) => {
-    return get(query(ref(getDatabase(), path), orderByChild(orderBy), equalTo(obj[orderBy]), limitToFirst(limit)))
+    const constrain = []
+    if (orderBy) {
+        constrain.push(orderByChild(orderBy))
+    }
+    if (obj) {
+        constrain.push(equalTo(obj[orderBy]))
+    }
+    if (limit) {
+        constrain.push(limitToFirst(limit))
+    }
+
+    return get(query(ref(getDatabase(), path), ...constrain))
 }
 
 export const updateById = (path, key, data) => {

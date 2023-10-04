@@ -1,11 +1,11 @@
-import {useAppPopupDialog} from "../context/dialogContext";
+import {usePopupDialog} from "../context/dialogContext";
 import {EllipsisHorizontalCircleIcon} from "@heroicons/react/20/solid";
 import React from "react";
 const show = 1
 
 export function ShowMore({children, items}) {
     const all = items.map(children)
-    const {openModal, closeModal} = useAppPopupDialog();
+    const {openModal, closeModal} = usePopupDialog();
     // we use modal because it has portal
     const mainItems = all.slice(0, show)
     return (

@@ -67,6 +67,6 @@ export const ModalProvider = ({children}) => {
     )
 }
 
-export const useAppPopupDialog = () => {
+export const usePopupDialog = () => {
     return useContext(ModalContext)
 }

@@ -2,7 +2,7 @@ import {useState} from 'react'
 import {Bars3Icon, XMarkIcon} from '@heroicons/react/24/outline'
 import {Logo} from "./Logo";
 import {Link} from "react-router-dom";
-import {useAppPopupDialog} from "../context/dialogContext";
+import {usePopupDialog} from "../context/dialogContext";
 import {useTranslation} from "react-i18next";
 import {useFireBase} from "../context/fireBaseContext";
 import {useAuthState} from "react-firebase-hooks/auth";
@@ -21,7 +21,7 @@ export const Navbar = ({navigation}) => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const {t} = useTranslation()
 
-    const {openModal, closeModal} = useAppPopupDialog();
+    const {openModal, closeModal} = usePopupDialog();
     const {auth} = useFireBase();
     const [user] = useAuthState(auth);
 

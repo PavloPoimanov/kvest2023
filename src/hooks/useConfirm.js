@@ -1,10 +1,10 @@
 import {useCallback} from 'react'
-import {useAppPopupDialog} from "../context/dialogContext";
+import {usePopupDialog} from "../context/dialogContext";
 import {Dialog} from '@headlessui/react'
 import {useTranslation} from "react-i18next";
 
 export const useConfirm = () => {
-    const {openModal, closeModal} = useAppPopupDialog()
+    const {openModal, closeModal} = usePopupDialog()
     const {t} = useTranslation()
 
     const confirm = useCallback((text, content, confirmText) => {
