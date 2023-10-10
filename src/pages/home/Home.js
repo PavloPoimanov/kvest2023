@@ -22,7 +22,7 @@ const QuizComponent = () => {
     // Function to fetch data and initialize the quiz
     const fetchData = (next = false) => async () => {
         try {
-            const response = await getBy(null, next ? nextTopic: currentTopic, null, 4);
+            const response = await getBy(null, next ? nextTopic: currentTopic, null, null);
             const result = [];
             response.forEach(e => {
                 result.push({id: e.key, ...e.val()})
