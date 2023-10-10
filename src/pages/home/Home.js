@@ -4,7 +4,6 @@ import {useTranslation} from "react-i18next";
 import {navigationLinks} from "../../constant/navigation";
 import {Link} from "react-router-dom";
 import {getBy} from "../../api/firebase/api";
-import {Dialog, Transition} from "@headlessui/react";
 import {usePopupDialog} from "../../context/dialogContext";
 import {useSnackbar} from "notistack";
 
