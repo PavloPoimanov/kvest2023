@@ -6,10 +6,13 @@ import {Link} from "react-router-dom";
 import {getBy} from "../../api/firebase/api";
 import {usePopupDialog} from "../../context/dialogContext";
 import {useSnackbar} from "notistack";
+import {ShowMore} from "../../components/ShowMore";
+import {makeLink} from "../../lib/makeLink";
 
 const QuizComponent = () => {
     const [data, setData] = useState([]);
     const [currentItem, setCurrentItem] = useState(null);
+    const [triesCount, setTriesCount] = useState(0);
     const [answers, setAnswers] = useState([]);
     const getRandomElements = (arr, count) => {
         const shuffled = arr.sort(() => 0.5 - Math.random());
@@ -21,6 +24,7 @@ const QuizComponent = () => {
     // Function to fetch data and initialize the quiz
     const fetchData = (next = false) => async () => {
         try {
+            setTriesCount(0)
             const response = await getBy(null, next ? nextTopic: currentTopic, null, null);
             const result = [];
             response.forEach(e => {
@@ -63,7 +67,7 @@ const QuizComponent = () => {
             [array[i], array[j]] = [array[j], array[i]];
         }
     };
-    const {openModal} = usePopupDialog()
+    const {openModal, closeModal} = usePopupDialog()
 
     // Handle opening the modal and preparing answers when currentItem changes
     useEffect(() => {
@@ -78,6 +82,26 @@ const QuizComponent = () => {
                 content: <div className='flex flex-col items-center w-full'>
                     <h2 className="text-2xl font-semibold mb-4">{t(`common.${currentTopic}`)}</h2>
                     <p className="text-gray-800 mb-6 italic">{currentItem.description}</p>
+                    {triesCount > 0 &&<div className="flex gap-2 items-center mb-6" onClick={()=>closeModal()}>
+                        <div className="text-gray-600 text-xs">Підсказка: </div>
+                        <div className="text-gray-600 italic text-xs mb-0">
+                            {currentItem.links &&
+                                <ShowMore items={Object.entries(currentItem.links).map(([key, value]) => ({key, ...value}))}>
+                                    {(item) => <Link key={item.key}
+                                                     to={makeLink(item)}
+                                                     className="text-blue-500 hover:underline text-sm mb-0">
+                                        {item.key}
+                                    </Link>}
+                                </ShowMore>}
+                            {currentItem.href && <Link
+                                to={makeLink(currentItem.link)}
+                                className="text-blue-500 hover:underline text-sm mb-0"
+                            >
+                                {currentItem.href}
+                            </Link>}
+                        </div>
+                    </div>
+                    }
                     <ul className='grid grid-cols-2 grid-rows-2 gap-5 w-full'>
                         {answers.map((answer) => (
                             <li key={answer.id} className="mb-2">
@@ -99,7 +123,7 @@ const QuizComponent = () => {
                 </div>
             })
         }
-    }, [currentItem, answers]);
+    }, [currentItem, answers, triesCount]);
 
 
     const {enqueueSnackbar} = useSnackbar();
@@ -111,6 +135,7 @@ const QuizComponent = () => {
         } else {
             enqueueSnackbar(t("common.unCorrect"), {variant: "warning"})
         }
+        setTriesCount((c)=> +c + 1)
         // Handle logic when an answer is selected
         // For example, check if it's correct and display feedback
         // You can also update a score or perform other actions here
