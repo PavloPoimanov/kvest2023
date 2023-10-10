@@ -7,7 +7,7 @@ export function UserInfo({user = {}, onSignOut}) {
             <div className="flex items-center">
                 <div className="w-12 h-12 rounded-full overflow-hidden">
                     {user.photoURL && <img
-                        className="h-8 w-8 rounded-full"
+                        className="w-12 h-12 rounded-full"
                         src={user.photoURL || '/default-avatar.png'}
                         alt="User avatar"
                     />}
