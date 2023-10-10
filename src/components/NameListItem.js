@@ -8,11 +8,14 @@ import {ShowMore} from "./ShowMore";
 import {DataTime} from "./DataTime";
 import {useTranslation} from "react-i18next";
 import {getUserInfo} from "../lib/getUserInfo";
+import {useAuthorization} from "../hooks/useAuthorization";
 
 
 export const NameListItem = (props) => {
     const {auth, googleProvider} = useFireBase();
     const [loggedUser] = useAuthState(auth);
+    const {authorized} = useAuthorization(loggedUser)
+
     let lastUpdatedUser = ""
     if (props.item?.users) {
         const [_, userInfo] = getUserInfo(props.item.users);
@@ -47,7 +50,7 @@ export const NameListItem = (props) => {
                     )}
                 </ShowMore>}
             </div>
-            {loggedUser && <DeleteIconButton onDelete={props.onDelete}/>}
+            {authorized && <DeleteIconButton onDelete={props.onDelete}/>}
         </div>
     );
 }

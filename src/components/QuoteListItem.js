@@ -7,6 +7,7 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {DataTime} from "./DataTime";
 import {getUserInfo} from "../lib/getUserInfo";
 import {useTranslation} from "react-i18next";
+import {useAuthorization} from "../hooks/useAuthorization";
 
 export function QuoteListItem(props) {
     const {auth} = useFireBase();
@@ -16,6 +17,7 @@ export function QuoteListItem(props) {
         const [_, userInfo] = getUserInfo(props.item.users);
         lastUpdatedUser = userInfo.name ?? userInfo.email
     }
+    const {authorized} = useAuthorization(loggedUser)
     const {t} = useTranslation()
     return (
         <div className="bg-gray-100 p-4 shadow-lg rounded-lg transform hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out">
@@ -38,7 +40,7 @@ export function QuoteListItem(props) {
                     {props.item.href}
                 </Link>
             </div>
-            {loggedUser && <DeleteIconButton onDelete={props.onDelete}/>}
+            {authorized && <DeleteIconButton onDelete={props.onDelete}/>}
         </div>
     );
 }

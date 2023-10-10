@@ -8,11 +8,13 @@ import {ShowMore} from "./ShowMore";
 import {DataTime} from "./DataTime";
 import {getUserInfo} from "../lib/getUserInfo";
 import {useTranslation} from "react-i18next";
+import {useAuthorization} from "../hooks/useAuthorization";
 
 export const PlaceListItem = (props) => {
     const {auth, googleProvider} = useFireBase();
     const [loggedUser] = useAuthState(auth);
     let lastUpdatedUser = ""
+    const {authorized} = useAuthorization(loggedUser)
     if (props.item?.users) {
         const [_, userInfo] = getUserInfo(props.item.users);
         lastUpdatedUser = userInfo.name ?? userInfo.email
@@ -42,7 +44,7 @@ export const PlaceListItem = (props) => {
                         </Link>}
                     </ShowMore>}
             </div>
-            {loggedUser && <DeleteIconButton onDelete={props.onDelete}/>}
+            {authorized && <DeleteIconButton onDelete={props.onDelete}/>}
         </div>
     );
 }

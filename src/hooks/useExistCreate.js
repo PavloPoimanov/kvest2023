@@ -11,8 +11,19 @@ export const useExistCreate = (path = "names", user = null, orderBy = "name",) =
     return async (formData) => {
         const snapshot = await getBy(formData, path, orderBy);
         if (snapshot.exists()) {
-            if (await confirm(t('common.sureToOverwrite'), t('common.sureToOverwriteDescription'))) {
-                const [[key, val]] = Object.entries(snapshot.val())
+            const [[key, val]] = Object.entries(snapshot.val())
+           if (await confirm(
+                t('common.sureToOverwrite'),
+                <>
+                    <span className='block text-red-500'>
+                        {t('common.sureToOverwriteDescription')}
+                    </span>
+                    <span className='block text-xs text-gray-950'>Знайдено: {val.name}</span>
+                    <span className='block text-xs text-gray-950'>Опис: {val.description}</span>
+                </>,
+                {yes: t('common.update'), no: t('common.close')}
+            )
+            ) {
                 await updateById(path, key, {
                     ...formData,
                     usage_count: val.usage_count + 1,

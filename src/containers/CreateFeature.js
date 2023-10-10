@@ -62,9 +62,9 @@ function CreateFeature({onClose, user}) {
         },
     ];
 
-    const activeOption = options.find(({current})=>current);
+    const activeOption = options.find(({current}) => current);
 
-    const [selectedOption, setSelectedOption] = useState(activeOption??options[0]);
+    const [selectedOption, setSelectedOption] = useState(activeOption ?? options[0]);
 
     const handleOptionChange = (event) => {
         const newOption = options.find((opt) => opt.key === event);

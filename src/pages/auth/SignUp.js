@@ -7,7 +7,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {useSnackbar} from "notistack";
 
 export const SignUp = () => {
-    const {auth, googleProvider} = useFireBase();
+    const {auth} = useFireBase();
     const [loggedUser] = useAuthState(auth);
     const [
         createUserWithEmailAndPassword,

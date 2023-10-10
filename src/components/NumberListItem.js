@@ -7,10 +7,12 @@ import {useAuthState} from "react-firebase-hooks/auth";
 import {DataTime} from "./DataTime";
 import {getUserInfo} from "../lib/getUserInfo";
 import {useTranslation} from "react-i18next";
+import {useAuthorization} from "../hooks/useAuthorization";
 
 export const NumberListItem = (props) => {
     const {auth, googleProvider} = useFireBase();
     const [loggedUser] = useAuthState(auth);
+    const {authorized} = useAuthorization(loggedUser)
     let lastUpdatedUser = ""
     if (props.item?.users) {
         const [_, userInfo] = getUserInfo(props.item.users);
@@ -43,7 +45,7 @@ export const NumberListItem = (props) => {
                     {props.item.href}
                 </Link>
             </div>
-            {loggedUser && <DeleteIconButton onDelete={props.onDelete}/>}
+            {authorized && <DeleteIconButton onDelete={props.onDelete}/>}
         </div>
     );
 };

@@ -7,7 +7,7 @@ export const useConfirm = () => {
     const {openModal, closeModal} = usePopupDialog()
     const {t} = useTranslation()
 
-    const confirm = useCallback((text, content, confirmText) => {
+    const confirm = useCallback((text, content, {yes, no} = {yes: t('common.deleteConfirm'), no:  t('common.close')}) => {
         let resolveCallback
         const handleConfirm = (isConfirmed) => {
             closeModal()
@@ -17,7 +17,7 @@ export const useConfirm = () => {
             content: (
                 <Dialog.Panel>
                     <Dialog.Title className="text-red-600 text-xl font-semibold transition-opacity duration-300">{text}</Dialog.Title>
-                    <Dialog.Description className="text-red-600 transition-opacity duration-300">
+                    <Dialog.Description className="transition-opacity duration-300">
                         {content}
                     </Dialog.Description>
                     <div className="mt-4 space-x-4 w-full flex justify-between transition-opacity duration-300">
@@ -25,13 +25,13 @@ export const useConfirm = () => {
                             onClick={() => handleConfirm(true)}
                             className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-full focus:outline-none focus:ring focus:ring-red-200 transition-all duration-300"
                         >
-                            {t('common.deleteConfirm')}
+                            {yes}
                         </button>
                         <button
                             onClick={() => closeModal(false)}
                             className="border border-gray-300 hover:border-gray-400 text-gray-700 py-2 px-4 rounded-full focus:outline-none focus:ring focus:ring-gray-200 transition-all duration-300"
                         >
-                            {t('common.close')}
+                            {no}
                         </button>
                     </div>
                 </Dialog.Panel>

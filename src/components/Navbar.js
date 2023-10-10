@@ -11,6 +11,7 @@ import {Dialog, Popover} from '@headlessui/react'
 import {AddButton} from "./AddButton";
 import {UserInfo} from "./UserInfo";
 import {UserInfoPopover} from "./UserInfoPopover";
+import {useAuthorization} from "../hooks/useAuthorization";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -24,11 +25,12 @@ export const Navbar = ({navigation}) => {
     const {openModal, closeModal} = usePopupDialog();
     const {auth} = useFireBase();
     const [user] = useAuthState(auth);
+    const {authorized} = useAuthorization(user)
 
     return (<header className="bg-gray-800">
         <nav className="mx-auto flex max-w-6xl items-center h-16 px-6 lg:px-8" aria-label="Global">
             <div className="flex lg:flex-1">
-                {user && <AddButton openModal={openModal} closeModal={closeModal} user={user}/>}
+                {authorized && <AddButton openModal={openModal} closeModal={closeModal} user={user}/>}
             </div>
             <div className="flex lg:flex-1 flex-grow justify-center">
                 <Logo/>
@@ -68,7 +70,7 @@ export const Navbar = ({navigation}) => {
             <Dialog.Panel
                 className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-800 px-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
                 <div className="flex items-center justify-between h-16 md:flex-row-reverse">
-                    {user && <div className='md:hidden block'><AddButton
+                    {authorized && <div className='md:hidden block'><AddButton
                         user={user}
                         onClick={() => setMobileMenuOpen(false)}
                         openModal={openModal} closeModal={closeModal}/></div>}
