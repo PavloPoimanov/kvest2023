@@ -35,7 +35,7 @@ export const PlaceListItem = (props) => {
                 <div className="text-gray-700 text-xs my-2 hover:text-blue-500 transition duration-300 ease-in-out">
                     {t("common.lastUpdatedBy")} {lastUpdatedUser}
                 </div>}
-            <div className="flex justify-between mt-2">
+            <div className="flex justify-between mt-2 flex-wrap gap-2">
                 <DataTime created={props.item?.created} updated={props.item?.updated}></DataTime>
                 {props.item.links &&
                     <ShowMore items={Object.entries(props.item.links).map(([key, value]) => ({key, ...value}))}>

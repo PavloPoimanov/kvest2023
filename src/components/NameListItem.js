@@ -40,7 +40,7 @@ export const NameListItem = (props) => {
                     {t("common.lastUpdatedBy")} {lastUpdatedUser}
                 </div>}
 
-            <div className="flex justify-between mt-2 items-center">
+            <div className="flex justify-between mt-2 items-center flex-wrap gap-2">
                 <DataTime created={props.item?.created} updated={props.item?.updated}></DataTime>
                 {props.item?.links &&
                     <ShowMore items={Object.entries(props.item?.links).map(([key, value]) => ({key, ...value}))}>

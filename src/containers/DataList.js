@@ -72,7 +72,7 @@ const DataList = ({
     const listMap = children ?? defaultListItem
 
     return (
-        <div className="max-w-2xl w-full mx-auto p-4">
+        <div className="max-w-2xl w-full mx-auto p-4 h-full flex-grow flex flex-col">
             <div className="mb-4 flex gap-2">
                 <input
                     type="text"
@@ -101,7 +101,7 @@ const DataList = ({
                     </div>
                 </div>
             )}
-            {loading && <p className="text-center">{t('common.loading')}</p>}
+            {loading && <p className="text-center h-full flex-grow flex flex-col items-center justify-center">{t('common.loading')}</p>}
             {error && <p className="text-center text-red-500">{error}</p>}
             {!loading && !error && (
                 <ul className="space-y-2">

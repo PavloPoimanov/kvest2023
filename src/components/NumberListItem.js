@@ -32,7 +32,7 @@ export const NumberListItem = (props) => {
       </span>
             </div>
 
-            <div className="flex justify-between mt-2">
+            <div className="flex justify-between mt-2 flex-wrap gap-2">
                 {lastUpdatedUser &&
                     <div className="text-gray-700 text-xs my-2 hover:text-blue-500 transition duration-300 ease-in-out">
                         {t("common.lastUpdatedBy")} {lastUpdatedUser}
