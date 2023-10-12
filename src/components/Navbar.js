@@ -109,7 +109,10 @@ export const Navbar = ({navigation}) => {
                                     <ArrowRightIcon className='w-4 h-4'></ArrowRightIcon>
                                 </Link>
                             </div>}
-                        {user && <UserInfo user={user} onSignOut={() => setMobileMenuOpen(false)}/>}
+                        {user && <UserInfo user={user} onSignOut={() => {
+                            setMobileMenuOpen(false)
+                            window.location.reload(false)
+                        }}/>}
 
                     </div>
                 </div>
