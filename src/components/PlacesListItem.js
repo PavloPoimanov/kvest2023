@@ -9,6 +9,7 @@ import {DataTime} from "./DataTime";
 import {getUserInfo} from "../lib/getUserInfo";
 import {useTranslation} from "react-i18next";
 import {useAuthorization} from "../hooks/useAuthorization";
+import {EditIconButton} from "./EditButton";
 
 export const PlaceListItem = (props) => {
     const {auth, googleProvider} = useFireBase();
@@ -23,8 +24,9 @@ export const PlaceListItem = (props) => {
     return (
         <div
             className="bg-gray-100 p-4 shadow-lg rounded-lg transform hover:scale-105 hover:shadow-xl transition duration-300 ease-in-out">
-            <div className="text-lg font-bold text-gray-700 hover:text-blue-500 transition duration-300 ease-in-out">
+            <div className="text-lg font-bold text-gray-700 hover:text-blue-500 transition duration-300 ease-in-out flex items-center gap-2">
                 {props.item.place}
+                {authorized && <EditIconButton onEdit={props.onEdit}/>}
             </div>
             <div className="italic text-gray-700 text-sm my-2 hover:text-blue-500 transition duration-300 ease-in-out">
                 {props.item.description}

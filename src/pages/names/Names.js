@@ -5,12 +5,15 @@ import {useList} from "react-firebase-hooks/database";
 import {NameListItem} from "../../components/NameListItem";
 import {useDelete} from "../../hooks/useDelete";
 import {useFilter} from "../../hooks/useFilter";
+import {useEdit} from "../../hooks/useEdit";
+import {NameContent} from "../../components/create/NameContent";
 
 export const Names = () => {
     const database = getDatabase();
     const [snapshots, loading, error] = useList(query(ref(database, 'names')));
     const items = snapshots.map(e => ({...e.val(), id: e.key}))
     const deleteName = useDelete("names");
+    const editName = useEdit("names", NameContent);
     const {filterComponent, filterClb} = useFilter({initData: items})
 
     return <DataList items={items} loading={loading} error={error}
@@ -19,7 +22,7 @@ export const Names = () => {
                      filterClb={filterClb}
     >
         {(item) => (
-            <NameListItem key={item.id} item={item} onDelete={() => deleteName(item.id)}/>)}
+            <NameListItem key={item.id} item={item} onDelete={() => deleteName(item.id)} onEdit={()=>editName(item)}/>)}
     </DataList>
 }
 

@@ -5,6 +5,8 @@ import {useList} from "react-firebase-hooks/database";
 import {useDelete} from "../../hooks/useDelete";
 import {PlaceListItem} from "../../components/PlacesListItem";
 import {useFilter} from "../../hooks/useFilter";
+import {PlaceContent} from "../../components/create/PlaceContent";
+import {useEdit} from "../../hooks/useEdit";
 
 function Places() {
     const database = getDatabase();
@@ -15,6 +17,7 @@ function Places() {
     })
     const deleteName = useDelete("places")
     const {filterComponent, filterClb} = useFilter({initData: items})
+    const editPlace = useEdit("places", PlaceContent)
 
     return <DataList items={items}
                      loading={loading}
@@ -23,7 +26,7 @@ function Places() {
                      filter={filterComponent}
                      filterClb={filterClb}
                      defaultSortKey={"place"}>
-        {(item) => (<PlaceListItem key={item.id} item={item} onDelete={() => deleteName(item.id)}/>)}
+        {(item) => (<PlaceListItem key={item.id} item={item} onDelete={() => deleteName(item.id)} onEdit={()=>editPlace(item)} />)}
     </DataList>
 }
 

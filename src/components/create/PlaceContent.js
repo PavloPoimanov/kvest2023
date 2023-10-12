@@ -2,7 +2,7 @@ import {useTranslation} from "react-i18next";
 import React from "react";
 import {useFormValidation} from "../../hooks/useFormValidaiton";
 
-export function PlaceContent({setOnSubmit, shouldFormReset}) {
+export function PlaceContent({setOnSubmit, shouldFormReset, initialValues}) {
     const {t} = useTranslation(); // Use the useTranslation hook to access translations
 
     const onSubmit = (action) => {
@@ -27,7 +27,7 @@ export function PlaceContent({setOnSubmit, shouldFormReset}) {
     const validationRules = {
         name: ['required', 'max512'],
         description: ['max2048'],
-        link: ['required', 'max512', /^[1,2] (?:Хроніки|Самуїлова) \d*:\d*$/], // Example regex pattern for a URL
+        link: !initialValues ? ['required', 'max512', /^[1,2] (?:Хроніки|Самуїлова) \d*:\d*$/]:[], // Example regex pattern for a URL
     };
 
     const {
@@ -37,7 +37,7 @@ export function PlaceContent({setOnSubmit, shouldFormReset}) {
         handleChange,
         validate,
     } = useFormValidation(
-        {
+        initialValues ?? {
             name: '',
             description: '',
             link: '',
@@ -48,7 +48,7 @@ export function PlaceContent({setOnSubmit, shouldFormReset}) {
 
     return (
         <div>
-            <h4 className="text-lg font-medium">{t('common.placeContent')}</h4>
+            <h4 className="text-lg font-medium">{initialValues ? t('common.placeContentInitial') : t('common.placeContent')}</h4>
             <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700">{t('common.place')}:</label>
                 <input
@@ -83,7 +83,7 @@ export function PlaceContent({setOnSubmit, shouldFormReset}) {
                     <p className="text-red-500 text-sm mt-1">{errors.description}</p>
                 )}
             </div>
-            <div className="mt-4">
+            {!initialValues && <div className="mt-4">
                 <label className="block text-sm font-medium text-gray-700">
                     {t('common.link')}:
                 </label>
@@ -100,7 +100,7 @@ export function PlaceContent({setOnSubmit, shouldFormReset}) {
                 {errors.link && (
                     <p className="text-red-500 text-sm mt-1">{errors.link}</p>
                 )}
-            </div>
+            </div>}
         </div>
     );
 }
