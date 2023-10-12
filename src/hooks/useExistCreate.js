@@ -25,7 +25,8 @@ export const useExistCreate = (path = "names", user = null, orderBy = "name",) =
             )
             ) {
                 await updateById(path, key, {
-                    ...formData,
+                    name: formData.name.trim(),
+                    description: formData.description.trim(),
                     usage_count: val.usage_count + 1,
                     link: parseLink(formData.link),
                     href: formData.link,
@@ -45,7 +46,9 @@ export const useExistCreate = (path = "names", user = null, orderBy = "name",) =
             }
         } else {
             await createBy(path, {
-                usage_count: 1, ...formData,
+                usage_count: 1,
+                name: formData.name.trim(),
+                description: formData.description.trim(),
                 link: parseLink(formData.link),
                 href: formData.link,
                 users: {[user.uid]: {name: user.displayName, email: user.email}},

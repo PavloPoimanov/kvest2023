@@ -8,7 +8,8 @@ export const useCreate = (path = "names", user) => {
     const {t} = useTranslation();
     return async (formData) => {
         await createBy(path, {
-            ...formData,
+            name: formData.name.trim(),
+            description: formData.description.trim(),
             link: parseLink(formData.link),
             href: formData.link,
             users: {[user.uid]: {name: user.displayName, email: user.email}},
