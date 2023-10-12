@@ -9,18 +9,17 @@ import {DataTime} from "./DataTime";
 import {useTranslation} from "react-i18next";
 import {getUserInfo} from "../lib/getUserInfo";
 import {useAuthorization} from "../hooks/useAuthorization";
-import {IconButton} from "./IconButton";
-import {PencilIcon} from "@heroicons/react/20/solid";
 import {EditIconButton} from "./EditButton";
 
 export const NameListItem = (props) => {
-    const {auth, googleProvider} = useFireBase();
+    const {auth} = useFireBase();
     const [loggedUser] = useAuthState(auth);
     const {authorized} = useAuthorization(loggedUser)
 
     let lastUpdatedUser = ""
     if (props.item?.users) {
         const [_, userInfo] = getUserInfo(props.item.users);
+        console.log(_)
         lastUpdatedUser = userInfo.name ?? userInfo.email
     }
     const {t} = useTranslation()

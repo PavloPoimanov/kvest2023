@@ -40,10 +40,7 @@
     "migration": "cd ./migration && npm run dev"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "extends": []
   },
   "browserslist": {
     "production": [

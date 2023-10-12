@@ -10,12 +10,13 @@ import {useTranslation} from "react-i18next";
 import {useAuthorization} from "../hooks/useAuthorization";
 
 export const NumberListItem = (props) => {
-    const {auth, googleProvider} = useFireBase();
+    const {auth} = useFireBase();
     const [loggedUser] = useAuthState(auth);
     const {authorized} = useAuthorization(loggedUser)
     let lastUpdatedUser = ""
     if (props.item?.users) {
         const [_, userInfo] = getUserInfo(props.item.users);
+        console.log(_)
         lastUpdatedUser = userInfo.name ?? userInfo.email
     }
     const {t} = useTranslation()
