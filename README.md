@@ -3,7 +3,7 @@
 This is a web application created to assist in the preparation for the game "Kvest2023." The app is built using React and hosted on Firebase. It provides features and functionality to help players prepare for the game effectively.
 
 ## Table of Contents
-
+[![Deploy to Firebase Hosting on merge](https://github.com/PavloPoimanov/kvest2023/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/PavloPoimanov/kvest2023/actions/workflows/firebase-hosting-merge.yml)
 - [Getting Started](#getting-started)
     - [Prerequisites](#prerequisites)
     - [Installation](#installation)
