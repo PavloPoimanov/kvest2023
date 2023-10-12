@@ -15,3 +15,4 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_KVEST2023_25BD1 }}'
           projectId: kvest2023-25bd1
+          target: kvest2023-25bd1
