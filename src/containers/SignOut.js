@@ -20,7 +20,7 @@ export const SignOut = ({
         );
     }
     if (loading) {
-        return <p>Loading...</p>;
+        return <p>{t('common.loading')}</p>;
     }
     return (
         <button

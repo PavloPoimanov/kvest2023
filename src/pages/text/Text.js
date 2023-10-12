@@ -13,7 +13,7 @@ function ChapterTextItem({chapterId, book, verses, active, setRef}) {
     }, [])
 
     return <div className="mb-4">
-        <div className="bg-white  rounded-lg shadow-md">
+        <div className="bg-white rounded-lg shadow-md ">
             <h2 className=" px-2 font-semibold mb-2" ref={ref} data-id={`${book.key} ${chapterId}`}>
                 {book.label} {chapterId}
             </h2>
@@ -89,7 +89,7 @@ export const Text = () => {
     }
 
     return (
-        <div className="p-4">
+        <div className="p-4  max-w-2xl m-auto">
             {loading ? (
                 <div className="text-center text-gray-500">{t('common.loading')}</div>
             ) : error ? (

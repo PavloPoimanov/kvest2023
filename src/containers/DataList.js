@@ -101,7 +101,7 @@ const DataList = ({
                     </div>
                 </div>
             )}
-            {loading && <p className="text-center">Loading...</p>}
+            {loading && <p className="text-center">{t('common.loading')}</p>}
             {error && <p className="text-center text-red-500">{error}</p>}
             {!loading && !error && (
                 <ul className="space-y-2">

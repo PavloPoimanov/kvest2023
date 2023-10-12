@@ -52,7 +52,7 @@ export const SignUp = () => {
     }, [loggedUser])
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <p>{t('common.loading')}</p>;
     }
 
     return (
