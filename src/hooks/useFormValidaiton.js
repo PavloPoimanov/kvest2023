@@ -1,9 +1,15 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useTranslation} from "react-i18next";
 
-export function useFormValidation(initialState, validationRules) {
+export function useFormValidation(initialState, validationRules, initialErrors = null) {
     const [formData, setFormData] = useState(initialState);
     const [errors, setErrors] = useState({});
+    useEffect(() => {
+        if (initialErrors){
+            setErrors(initialErrors)
+        }
+    }, [initialErrors]);
+
     const {t} = useTranslation();
     const handleChange = (event) => {
         const {name, value} = event.target;

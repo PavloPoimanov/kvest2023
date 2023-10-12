@@ -2,16 +2,16 @@ import {useTranslation} from "react-i18next";
 import React from "react";
 import {useFormValidation} from "../../hooks/useFormValidaiton";
 
-export function PlaceContent({setOnSubmit, shouldFormReset, initialValues}) {
+export function PlaceContent({setOnSubmit, shouldFormReset, initialValues, errorsInitial}) {
     const {t} = useTranslation(); // Use the useTranslation hook to access translations
+    console.log(shouldFormReset, errorsInitial)
 
-    const onSubmit = (action) => {
+    const onSubmit = async (action) => {
         const isValid = validate();
         if (isValid) {
             // Perform further actions when the form is valid
-            action(formData);
-            if (shouldFormReset) {
-                // Reset the form data
+            const actionRes = await action(formData);
+            if (shouldFormReset && !actionRes) {      // Reset the form data
                 setFormData({
                     name: '',
                     description: '',
@@ -43,6 +43,7 @@ export function PlaceContent({setOnSubmit, shouldFormReset, initialValues}) {
             link: '',
         },
         validationRules,
+        errorsInitial
     );
 
 

@@ -12,7 +12,7 @@ import {useLocation} from "react-router-dom";
 
 function CreateFeature({onClose, user}) {
     const {t} = useTranslation();
-
+    const [error, setError] = useState(null);
     const submitRef = useRef();
 
     const handleSetOnSubmit = (sendRequest) => (onSubmit) => {
@@ -21,8 +21,14 @@ function CreateFeature({onClose, user}) {
     const [isAddMoreEnabled, setIsAddMoreEnabled] = useState(false); // Toggle state
     const handleClickSaveSubmit = (event) => {
         event.preventDefault();
-        submitRef.current.onSubmit((formData) => {
-            submitRef.current.sendRequest(formData)
+        submitRef.current.onSubmit(async (formData) => {
+            setError(null)
+            const res = await submitRef.current.sendRequest(formData)
+            if (res){
+                const er = {name: t('common.sureToOverwriteWarning')};
+                setError(er)
+                return er;
+            }
             if (!isAddMoreEnabled) {
                 onClose();
             }
@@ -32,7 +38,7 @@ function CreateFeature({onClose, user}) {
     const handlePlace = useExistCreate("places", user)
     const handleNumbers = useCreate("numbers", user)
     const handleQuote = useCreate("quotes", user)
-
+console.log(error)
     const location = useLocation();
 
     const options = [
@@ -40,25 +46,25 @@ function CreateFeature({onClose, user}) {
             key: 'name',
             label: t('common.name'),
             current: location?.pathname === "/names",
-            content: <NameContent setOnSubmit={handleSetOnSubmit(handleName)} shouldFormReset={isAddMoreEnabled}/>,
+            content: ()=><NameContent setOnSubmit={handleSetOnSubmit(handleName)} shouldFormReset={isAddMoreEnabled} errorsInitial={error}/>,
         },
         {
             key: 'place',
             label: t('common.place'),
             current: location?.pathname === "/places",
-            content: <PlaceContent setOnSubmit={handleSetOnSubmit(handlePlace)} shouldFormReset={isAddMoreEnabled}/>
+            content: ()=><PlaceContent setOnSubmit={handleSetOnSubmit(handlePlace)} shouldFormReset={isAddMoreEnabled} errorsInitial={error}/>
         },
         {
             key: 'number',
             label: t('common.number'),
             current: location?.pathname === "/numbers",
-            content: <NumberContent setOnSubmit={handleSetOnSubmit(handleNumbers)} shouldFormReset={isAddMoreEnabled}/>
+            content: ()=><NumberContent setOnSubmit={handleSetOnSubmit(handleNumbers)} shouldFormReset={isAddMoreEnabled} errorsInitial={null}/>
         },
         {
             key: 'quote',
             label: t('common.quote'),
             current: location?.pathname === "/quotes",
-            content: <QuoteContent setOnSubmit={handleSetOnSubmit(handleQuote)} shouldFormReset={isAddMoreEnabled}/>
+            content: ()=><QuoteContent setOnSubmit={handleSetOnSubmit(handleQuote)} shouldFormReset={isAddMoreEnabled} errorsInitial={null}/>
         },
     ];
 
@@ -100,7 +106,7 @@ function CreateFeature({onClose, user}) {
                     ></Select>
                 </div>
                 {selectedOption && (
-                    <div>{options.find((opt) => opt.key === selectedOption.key).content}</div>
+                    <div>{options.find((opt) => opt.key === selectedOption.key).content()}</div>
                 )}
             </div>
             <Switch.Group as='div' className={'flex items-center'}>

@@ -5,6 +5,9 @@
     ".write": true,
     "names": {
       ".indexOn": "name"
+    },
+    "places": {
+      ".indexOn": "name"
     }
   }
 }
